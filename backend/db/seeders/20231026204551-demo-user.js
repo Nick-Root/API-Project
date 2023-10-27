@@ -2,7 +2,7 @@
 
 const { User } = require('../models');
 const bcrypt = require("bcryptjs");
-const user = require('../models/user');
+
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
