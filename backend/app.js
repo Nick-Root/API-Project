@@ -1,20 +1,20 @@
-const express = require('express');
-require('express-async-errors');
-const morgan = require('morgan');
-const cors = require('cors');
-const csurf = require('csurf');
-const helmet = require('helmet');
-const cookieParser = require('cookie-parser');
-const routes = require('./routes');
-const { ValidationError } = require('sequelize');
+    const express = require('express');
+    require('express-async-errors');
+    const morgan = require('morgan');
+    const cors = require('cors');
+    const csurf = require('csurf');
+    const helmet = require('helmet');
+    const cookieParser = require('cookie-parser');
+    const routes = require('./routes');
+    const { ValidationError } = require('sequelize');
 
-const app = express();
-app.use(morgan('dev'));
-app.use(cookieParser());
-app.use(express.json());
+    const app = express();
+    app.use(morgan('dev'));
+    app.use(cookieParser());
+    app.use(express.json());
 
-const { environment } = require('./config');
-const isProduction = environment === 'production';
+    const { environment } = require('./config');
+    const isProduction = environment === 'production';
 
 // Security Middleware
 if (!isProduction) {
