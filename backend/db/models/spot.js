@@ -1,6 +1,7 @@
 'use strict';
 const {
-  Model
+  Model,
+  Validator
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
@@ -28,30 +29,40 @@ module.exports = (sequelize, DataTypes) => {
   Spot.init({
     address: {
       type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
     },
     city: {
       type: DataTypes.STRING,
+      allowNull: false
     },
     state: {
       type: DataTypes.STRING,
+      allowNull: false
     },
     country: {
       type: DataTypes.STRING,
+      allowNull: false
     },
     lat: {
       type: DataTypes.DECIMAL,
+      allowNull: false
     },
     lng: {
       type: DataTypes.DECIMAL,
+      allowNull: false
     },
     name: {
       type: DataTypes.STRING,
+      allowNull: false
     },
     description: {
       type: DataTypes.STRING,
+      allowNull: false
     },
     price: {
-      type: DataTypes.DECIMAL
+      type: DataTypes.DECIMAL,
+      allowNull: false
     }
   }, {
     sequelize,
