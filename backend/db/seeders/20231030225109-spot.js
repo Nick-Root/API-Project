@@ -22,7 +22,7 @@ module.exports = {
     await Spot.bulkCreate([
       {
 
-        owenerId: 1,
+        ownerId: 1,
         address: "1234 Lane Road",
         city: "Cityone",
         state: "Stateone",
@@ -35,7 +35,7 @@ module.exports = {
 
       },
       {
-        owenerId: 2,
+        ownerId: 2,
         address: "5678 Road Lane",
         city: "Citytwo",
         state: "Statetwo",
@@ -47,7 +47,7 @@ module.exports = {
         price: 1000
       },
       {
-        owenerId: 3,
+        ownerId: 3,
         address: "91011 Rane Laad",
         city: "Citythree",
         state: "Statethree",
@@ -58,7 +58,7 @@ module.exports = {
         description: "A pretty lame spot",
         price: 5000
       }
-    ])
+    ], { validate: true })
   },
 
   async down(queryInterface, Sequelize) {
@@ -68,5 +68,11 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    options.tableName = 'Spots';
+    const Op = Sequelize.Op;
+
+    return queryInterface.bulkDelete(options, {
+      city: { [Op.in]: ['Cityone', 'Citytwo', 'Citythree'] }
+    }, {});
   }
 };
