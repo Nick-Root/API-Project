@@ -160,8 +160,8 @@ router.post('/', checkSpotDetails, requireAuth, async (req, res) => {
         price
     })
     let spot = newSpot.toJSON()
-    delete spot.avgRating
-    delete spot.previewImage
+    // delete spot.avgRating
+    // delete spot.previewImage
     res.status(201).json(spot)
 })
 
@@ -195,6 +195,36 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     res.status(200).json(img)
 })
 
+//edit a spot
 
+router.put('/:spotId', checkSpotDetails, requireAuth, async (req, res) => {
+    const spot = await Spot.findByPk(req.params.spotId)
+    const { address, city, state, country, lat, lng, name, description, price } = req.body
+    const { user } = req
+    if (!spot) {
+        res.status(404).json({
+            message: "Spot couldn't be found",
+        })
+    }
+    if (spot.ownerId !== user.id) {
+        res.status(400).json({
+            message: "Bad Request"
+        })
+    }
+
+    spot.address = address
+    spot.city = city
+    spot.state = state
+    spot.country = country
+    spot.lat = lat
+    spot.lng = lng
+    spot.name = name
+    spot.description = description
+    spot.price = price
+
+
+    await spot.save()
+    res.status(200).json(spot)
+})
 
 module.exports = router
