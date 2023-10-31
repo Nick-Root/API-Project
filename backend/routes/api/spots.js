@@ -11,11 +11,10 @@ router.get('/', async (req, res) => {
 
     //get avg rating
     const spots = await Spot.findAll({
-        include: { model: Review, SpotImage },
-        // include: { model: SpotImage }
+        include: [Review, SpotImage],
     })
 
-    let avgRatingSpots = spots.map(spot => {
+    let addedPropSpots = spots.map(async (spot) => {
         let reviews = spot.toJSON().Reviews
         let starRatings = []
         let reviewArr = []
@@ -28,15 +27,20 @@ router.get('/', async (req, res) => {
         let sum = starRatings.reduce((prevNum, currNum) => prevNum + currNum, 0)
         let avgRating = parseFloat((sum / starRatings.length).toFixed(2))
         spot.avgRating = avgRating
-        console.log(spot.avgRating)
+        const spotImage = await SpotImage.findOne({ where: { spotId: spot.id } })
+        if (spotImage) {
+            spot.previewImage = spotImage.url;
+        }
         let rdel = spot.toJSON()
         delete rdel.Reviews
+        delete rdel.SpotImages
         return rdel
     });
 
+    addedPropSpots = await Promise.all(addedPropSpots)
 
     res.json({
-        Spots: avgRatingSpots
+        "Spots": addedPropSpots
     })
 })
 
@@ -44,12 +48,40 @@ router.get('/', async (req, res) => {
 //Get all Spots owned by CU
 router.get('/current', requireAuth, async (req, res) => {
     const currentId = req.user.id
-    const userSpots = await Spot.findAll({
+    const spots = await Spot.findAll({
         where: {
-            ownerId: currentId
-        }
+            ownerId: currentId,
+        },
+        include: [Review, SpotImage]
     })
-    res.json(userSpots)
+    let addedPropSpots = spots.map(async (spot) => {
+        let reviews = spot.toJSON().Reviews
+        let starRatings = []
+        let reviewArr = []
+
+        reviews.forEach(review => {
+            let rating = review.stars
+            starRatings.push(rating)
+            reviewArr.push(reviews)
+        });
+        let sum = starRatings.reduce((prevNum, currNum) => prevNum + currNum, 0)
+        let avgRating = parseFloat((sum / starRatings.length).toFixed(2))
+        spot.avgRating = avgRating
+        const spotImage = await SpotImage.findOne({ where: { spotId: spot.id } })
+        if (spotImage) {
+            spot.previewImage = spotImage.url;
+        }
+        let rdel = spot.toJSON()
+        delete rdel.Reviews
+        delete rdel.SpotImages
+        return rdel
+    });
+
+    addedPropSpots = await Promise.all(addedPropSpots)
+
+    res.json({
+        "Spots": addedPropSpots
+    })
 })
 
 module.exports = router
