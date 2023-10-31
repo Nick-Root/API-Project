@@ -108,7 +108,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 router.get('/:spotId', async (req, res) => {
     let spot = await Spot.findByPk(req.params.spotId)
-    if (!spot) res.status(404).json({ message: "Spot couldn't be found", statusCode: 404 })
+    if (!spot) res.status(404).json({ message: "Spot couldn't be found" })
     spot = spot.toJSON()
 
     //numReviews
@@ -163,6 +163,36 @@ router.post('/', checkSpotDetails, requireAuth, async (req, res) => {
     delete spot.avgRating
     delete spot.previewImage
     res.status(201).json(spot)
+})
+
+
+//create image for a spot
+
+router.post('/:spotId/images', requireAuth, async (req, res) => {
+    const spot = await Spot.findByPk(req.params.spotId)
+    const { url, preview } = req.body
+    if (!spot) {
+        res.status(404).json({
+            message: "Spot couldn't be found",
+        })
+    }
+    if (spot.ownerId !== req.user.id) {
+        res.status(400).json({
+            message: "Validation error"
+        })
+    }
+    if (preview === true) {
+        spot.previewImage = url
+        await spot.save()
+    }
+    const newSpotImage = await spot.createSpotImage({
+        url, preview
+    })
+    newSpotImage.toJSON().url = url
+    newSpotImage.toJSON().preview = preview
+    let img = { id: newSpotImage.id, url, preview }
+    await newSpotImage.save()
+    res.status(200).json(img)
 })
 
 module.exports = router
