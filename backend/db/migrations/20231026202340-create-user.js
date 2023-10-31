@@ -1,5 +1,4 @@
 'use strict';
-
 let options = {};
 options.tableName = "Users"
 if (process.env.NODE_ENV === 'production') {
