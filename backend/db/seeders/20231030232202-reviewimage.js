@@ -30,6 +30,18 @@ module.exports = {
       {
         reviewId: 3,
         url: 'img3.com'
+      },
+      {
+        reviewId: 4,
+        url: 'img4.com'
+      },
+      {
+        reviewId: 5,
+        url: 'img5.com'
+      },
+      {
+        reviewId: 6,
+        url: 'img6.com'
       }
     ], { validate: true })
   },
@@ -45,7 +57,7 @@ module.exports = {
     const Op = Sequelize.Op;
 
     return queryInterface.bulkDelete(options, {
-      url: { [Op.in]: ['img1.com', 'img2.com', 'img3.com'] }
+      url: { [Op.in]: ['img1.com', 'img2.com', 'img3.com', 'img4.com', 'img5.com', 'img6.com'] }
     }, {});
   }
 }
