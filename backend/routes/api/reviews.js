@@ -74,4 +74,49 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
 })
 
 
+//add an image to a review from reviewId
+
+router.post('/:reviewId/images', requireAuth, async (req, res) => {
+    const review = await Review.findByPk(req.params.reviewId)
+    const { user } = req
+    if (!review) {
+        res.status(404).json({ message: "Review couldn't be found" })
+    }
+    if (review.userId !== user.id) {
+        res.status(400).json({ message: "Bad request" })
+    }
+    const spot = await Spot.findByPk(review.spotId)
+    const { url, preview } = req.body
+    const otherRevImgs = await ReviewImage.findAll({
+        where: { reviewId: review.id }
+    })
+
+    if (preview === true) spot.previewImage = url
+
+    if (otherRevImgs.length > 9) {
+        res.status(403).json({ message: "Maximum number of images for this resource was reached" })
+    } else {
+        let newRevImg = await review.createReviewImage({
+            url, reviewId: req.params.reviewId
+        })
+        res.status(200).json(newRevImg)
+    }
+})
+
+
+//delete a review
+
+router.delete('/:reviewId', requireAuth, async (req, res) => {
+    let review = await Review.findByPk(req.params.reviewId)
+    const { user } = req
+    if (!review) {
+        res.status(404).json({ message: "Review couldn't be found" })
+    }
+    if (review.userId !== user.id) {
+        res.status(400).json({ message: "Bad Request" })
+    }
+    await review.destroy()
+    res.status(200).json({ message: "Successfully deleted" })
+})
+
 module.exports = router

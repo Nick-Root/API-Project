@@ -303,6 +303,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
     if (!stars) errors.push("Stars must be an integer from 1 to 5")
     if (errors.length) {
         res.status(400).json({ message: "Validation error", errors })
+        return
     }
 
     if (currRev) {
@@ -342,7 +343,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     }
 })
 
-//create a booking based in a spotId
+//create a booking based on a spotId
 router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     const { user } = req
     const userId = user.id
