@@ -52,7 +52,7 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
         res.status(404).json({ message: "Review couldn't be found" })
     }
     if (revs.userId !== user.id) {
-        res.status(400).json({ message: "Can only edit your own reviews" })
+        res.status(403).json({ message: "Forbidden" })
     }
 
     const { review, stars } = req.body
@@ -62,7 +62,7 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
     if (!req.body.review) errors.push("Review text is required")
     if (req.body.stars > 5 || req.body.stars < 1 || !stars) errors.push("Stars must be an integer from 1 to 5")
     if (errors.length > 0) {
-        const error = new Error("Validation error")
+        const error = new Error("Bad Request")
         err.statusCode = 400
         error.errors = errors
         return next(error)
@@ -111,9 +111,11 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
     const { user } = req
     if (!review) {
         res.status(404).json({ message: "Review couldn't be found" })
+        return
     }
     if (review.userId !== user.id) {
-        res.status(400).json({ message: "Bad Request" })
+        res.status(403).json({ message: "Forbidden" })
+        return
     }
     await review.destroy()
     res.status(200).json({ message: "Successfully deleted" })
