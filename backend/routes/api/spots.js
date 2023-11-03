@@ -85,7 +85,7 @@ router.get("/", queryFilters, async (req, res) => {
             delete spotsJSON[i].SpotImages;
         } else {
             // If no image found, set previewImage to null or an empty string
-            spotsJSON[i].previewImage = null; // or spotsJSON[i].previewImage = '';
+            spotsJSON[i].previewImage = `No preview image`; // or spotsJSON[i].previewImage = '';
             delete spotsJSON[i].SpotImages;
         }
 
