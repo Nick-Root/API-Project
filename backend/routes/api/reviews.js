@@ -39,6 +39,13 @@ router.get('/current', requireAuth, async (req, res) => {
             }
         ]
     })
+    // Convert lat, lng, and price to numbers in each Spot
+    currUserRevs.forEach((review) => {
+        const spot = review.Spot;
+        spot.lat = parseFloat(spot.lat);
+        spot.lng = parseFloat(spot.lng);
+        spot.price = parseFloat(spot.price);
+    });
     res.status(200).json({ Reviews: currUserRevs })
 })
 

@@ -77,7 +77,14 @@ router.get("/", queryFilters, async (req, res) => {
         offset,
     });
 
-    const spotsJSON = spots.map((ele) => ele.toJSON());
+    const spotsJSON = spots.map((ele) => {
+        const spotData = ele.toJSON()
+        spotData.lat = parseFloat(spotData.lat);
+        spotData.lng = parseFloat(spotData.lng);
+        spotData.price = parseFloat(spotData.price);
+
+        return spotData
+    });
 
     for (let i = 0; i < spotsJSON.length; i++) {
         if (spotsJSON[i].SpotImages[0]) {
@@ -137,6 +144,9 @@ router.get('/current', requireAuth, async (req, res) => {
         let rdel = spot.toJSON()
         delete rdel.Reviews
         delete rdel.SpotImages
+        rdel.lat = parseFloat(rdel.lat);
+        rdel.lng = parseFloat(rdel.lng);
+        rdel.price = parseFloat(rdel.price);
         return rdel
     });
 
@@ -181,6 +191,11 @@ router.get('/:spotId', async (req, res) => {
         spot.previewImage = `No preview image`
     }
     spot.numReviews = numRevs
+
+    spot.lat = parseFloat(spot.lat);
+    spot.lng = parseFloat(spot.lng);
+    spot.price = parseFloat(spot.price);
+
     spot.avgRating = avgRating ? avgRating : `Spot not rated`
     spot.SpotImages = spotImage
     spot.Owner = owner
@@ -209,19 +224,10 @@ router.post('/', requireAuth, checkSpotDetails, async (req, res) => {
     // if(spot.avgRating === null)
     // delete spot.avgRating
     // delete spot.previewImage
-    res.status(201).json({
-        id: spot.id,
-        ownerId: spot.ownerId,
-        address: spot.address,
-        city: spot.city,
-        state: spot.state,
-        country: spot.country,
-        lat: spot.lat,
-        lng: spot.lng,
-        name: spot.name,
-        description: spot.description,
-        price: spot.price
-    })
+    spot.lat = parseFloat(spot.lat);
+    spot.lng = parseFloat(spot.lng);
+    spot.price = parseFloat(spot.price);
+    res.status(201).json(spot)
 })
 
 
