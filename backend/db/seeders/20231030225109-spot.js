@@ -52,11 +52,11 @@ module.exports = {
         city: "Citythree",
         state: "Statethree",
         country: "Countrythree",
-        lat: 64.23436,
-        lng: 97.35622,
+        lat: 38.23436,
+        lng: 37.35622,
         name: "Lame Spot",
         description: "A pretty lame spot",
-        price: 5000
+        price: 500
       }
     ], { validate: true })
   },

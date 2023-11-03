@@ -84,7 +84,7 @@ router.get("/", queryFilters, async (req, res) => {
             delete spotsJSON[i].SpotImages;
         }
         if (!spotsJSON[i].previewImage) {
-            spotsJSON[i].previewImage = null;
+            spotsJSON[i].previewImage = `No preview image available`;
             delete spotsJSON[i].SpotImages;
         }
     }
@@ -99,7 +99,8 @@ router.get("/", queryFilters, async (req, res) => {
                 spotId: spot.id,
             },
         });
-        spot.avgRating = sum / total;
+        const avgRating = sum / total
+        spot.avgRating = avgRating ? avgRating : `Spot currently unrated`
     }
     res.json({ Spots: spotsJSON, page: page, size: size });
 });
@@ -143,7 +144,7 @@ router.get('/current', requireAuth, async (req, res) => {
     })
 })
 
-
+//get spot by spotId
 router.get('/:spotId', async (req, res) => {
     let spot = await Spot.findByPk(req.params.spotId)
     if (!spot) return res.status(404).json({ message: "Spot couldn't be found" })
@@ -171,9 +172,14 @@ router.get('/:spotId', async (req, res) => {
 
     const owner = await User.findByPk(spot.ownerId, { attributes: ['id', 'firstName', 'lastName'] })
 
-    if (spotImage.length) spot.previewImage = spotImage[0].url
+
+    if (spotImage.length) {
+        spot.previewImage = spotImage[0].url
+    } else {
+        spot.previewImage = `No preview image available`
+    }
     spot.numReviews = numRevs
-    spot.avgRating = avgRating
+    spot.avgRating = avgRating ? avgRating : `Spot currently unrated`
     spot.SpotImages = spotImage
     spot.Owner = owner
 
