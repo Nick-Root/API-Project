@@ -50,7 +50,6 @@ const checkSpotDetails = [
 ]
 
 
-//Get all spots
 router.get("/", queryFilters, async (req, res) => {
     const {
         limit,
@@ -65,6 +64,7 @@ router.get("/", queryFilters, async (req, res) => {
         maxPrice,
         where,
     } = req.pagination;
+
     const spots = await Spot.unscoped().findAll({
         where,
         include: [
@@ -76,32 +76,33 @@ router.get("/", queryFilters, async (req, res) => {
         limit,
         offset,
     });
+
     const spotsJSON = spots.map((ele) => ele.toJSON());
 
     for (let i = 0; i < spotsJSON.length; i++) {
         if (spotsJSON[i].SpotImages[0]) {
             spotsJSON[i].previewImage = spotsJSON[i].SpotImages[0].url;
             delete spotsJSON[i].SpotImages;
-        }
-        if (!spotsJSON[i].previewImage) {
-            spotsJSON[i].previewImage = null;
+        } else {
+            // If no image found, set previewImage to null or an empty string
+            spotsJSON[i].previewImage = null; // or spotsJSON[i].previewImage = '';
             delete spotsJSON[i].SpotImages;
         }
-    }
-    for (let spot of spotsJSON) {
+
         const sum = await Review.sum("stars", {
             where: {
-                spotId: spot.id,
+                spotId: spotsJSON[i].id,
             },
         });
         const total = await Review.count({
             where: {
-                spotId: spot.id,
+                spotId: spotsJSON[i].id,
             },
         });
-        spot.avgRating = sum / total;
-        // spot.avgRating = avgRating ? avgRating : `Spot not rated`
+
+        spotsJSON[i].avgRating = total > 0 ? sum / total : 'Spot not rated';
     }
+
     res.json({ Spots: spotsJSON, page: page, size: size });
 });
 
@@ -130,6 +131,8 @@ router.get('/current', requireAuth, async (req, res) => {
         const spotImage = await SpotImage.findOne({ where: { spotId: spot.id } })
         if (spotImage) {
             spot.previewImage = spotImage.url;
+        } else {
+            spot.previewImage = `No preview image`
         }
         let rdel = spot.toJSON()
         delete rdel.Reviews
@@ -172,7 +175,11 @@ router.get('/:spotId', async (req, res) => {
 
     const owner = await User.findByPk(spot.ownerId, { attributes: ['id', 'firstName', 'lastName'] })
 
-    if (spotImage.length) spot.previewImage = spotImage[0].url
+    if (spotImage.length >= 1) {
+        spot.previewImage = spotImage[0].url
+    } else {
+        spot.previewImage = `No preview image`
+    }
     spot.numReviews = numRevs
     spot.avgRating = avgRating ? avgRating : `Spot not rated`
     spot.SpotImages = spotImage
