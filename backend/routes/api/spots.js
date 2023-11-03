@@ -227,7 +227,21 @@ router.post('/', requireAuth, checkSpotDetails, async (req, res) => {
     spot.lat = parseFloat(spot.lat);
     spot.lng = parseFloat(spot.lng);
     spot.price = parseFloat(spot.price);
-    res.status(201).json(spot)
+    res.status(201).json({
+        id: spot.id,
+        ownerId: spot.ownerId,
+        address: spot.address,
+        city: spot.city,
+        state: spot.state,
+        country: spot.country,
+        lat: spot.lat,
+        lng: spot.lng,
+        name: spot.name,
+        description: spot.description,
+        price: spot.price,
+        updatedAt: spot.updatedAt,
+        createdAt: spot.createdAt
+    })
 })
 
 
