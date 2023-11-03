@@ -182,7 +182,7 @@ router.get('/:spotId', async (req, res) => {
 
 //create a new spot
 
-router.post('/', checkSpotDetails, requireAuth, async (req, res) => {
+router.post('/', requireAuth, checkSpotDetails, async (req, res) => {
     const userId = req.user.id
     const { address, city, state, country, lat, lng, name, description, price } = req.body
     const newSpot = await Spot.create({
@@ -235,7 +235,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 
 //edit a spot
 
-router.put('/:spotId', checkSpotDetails, requireAuth, async (req, res) => {
+router.put('/:spotId', requireAuth, checkSpotDetails, async (req, res) => {
     const spot = await Spot.findByPk(req.params.spotId)
     const { address, city, state, country, lat, lng, name, description, price } = req.body
     const { user } = req
@@ -245,8 +245,8 @@ router.put('/:spotId', checkSpotDetails, requireAuth, async (req, res) => {
         })
     }
     if (spot.ownerId !== user.id) {
-        res.status(400).json({
-            message: "Bad Request"
+        res.status(403).json({
+            message: "Forbidden"
         })
     }
 
