@@ -56,7 +56,7 @@ module.exports = {
         lng: 37.35622,
         name: "Lame Spot",
         description: "A pretty lame spot",
-        price: 500
+        price: 65
       }
     ], { validate: true })
   },
