@@ -78,16 +78,17 @@ router.get("/", queryFilters, async (req, res) => {
     });
     const spotsJSON = spots.map((ele) => ele.toJSON());
 
-    for (let i = 0; i < spotsJSON.length; i++) {
-        if (spotsJSON[i].SpotImages[0]) {
-            spotsJSON[i].previewImage = spotsJSON[i].SpotImages[0].url;
-            delete spotsJSON[i].SpotImages;
+    spotsJSON.forEach((spot) => {
+        if (spot.spotImage.length) {
+            spot.previewImage = spot.SpotImage[0].url
+            delete spot.SpotImages
+        } else {
+            spot.previewImage = `No preview image available`
+            delete spot.SpotImages
         }
-        if (!spotsJSON[i].previewImage) {
-            spotsJSON[i].previewImage = `No preview image available`;
-            delete spotsJSON[i].SpotImages;
-        }
-    }
+    })
+
+
     for (let spot of spotsJSON) {
         const sum = await Review.sum("stars", {
             where: {
@@ -128,8 +129,10 @@ router.get('/current', requireAuth, async (req, res) => {
         let avgRating = parseFloat((sum / starRatings.length).toFixed(2))
         spot.avgRating = avgRating
         const spotImage = await SpotImage.findOne({ where: { spotId: spot.id } })
-        if (spotImage) {
-            spot.previewImage = spotImage.url;
+        if (spotImage.length) {
+            spot.previewImage = spotImage[0].url
+        } else {
+            spot.previewImage = `No preview image available`
         }
         let rdel = spot.toJSON()
         delete rdel.Reviews
