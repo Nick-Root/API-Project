@@ -100,7 +100,7 @@ router.get("/", queryFilters, async (req, res) => {
             },
         });
         spot.avgRating = sum / total;
-        spot.avgRating = avgRating ? avgRating : `Spot not rated`
+        // spot.avgRating = avgRating ? avgRating : `Spot not rated`
     }
     res.json({ Spots: spotsJSON, page: page, size: size });
 });
