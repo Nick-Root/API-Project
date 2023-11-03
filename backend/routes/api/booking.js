@@ -28,25 +28,25 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
     const newEndDate = new Date(endDate).getTime();
 
     //body validations
-    const errorsObj = {};
+    const errorObj = {};
 
     if (!startDate) {
-        errorsObj.startDate = "Please provide a valid Start Date";
+        errorObj.startDate = "Please provide a valid Start Date";
     }
     if (!endDate) {
-        errorsObj.endDate = "Please provide a valid End Date";
+        errorObj.endDate = "Please provide a valid End Date";
     }
 
-    if (errorsObj.startDate || errorsObj.endDate) {
-        res.status(400).json({ "message": "Bad Request", "errors": errorsObj });
+    if (errorObj.startDate || errorObj.endDate) {
+        return res.status(400).json({ message: "Bad Request", errors: errorObj });
     }
 
     //end must come after start
     if (newEndDate <= newStartDate) {
-        res.status(400).json({
-            "message": "Bad Request",
-            "errors": {
-                "endDate": "endDate cannot come before startDate"
+        return res.status(400).json({
+            message: "Bad Request",
+            errors: {
+                endDate: "endDate cannot come before startDate"
             }
         });
     }
@@ -89,36 +89,36 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
                 const bookingEndDate = new Date(booking.dataValues.endDate).getTime();
 
                 //check if this spot has been booked for these dates
-                const errorsObject = {};
+                const errObj = {};
                 // if (newStartDate === newEndDate) {
                 //     return res.status(403).json({ message: "Bad Request", errors: { endDate: "endDate cannot come before startDate" } })
                 // }
                 //start date is during a booking
                 if (newStartDate >= bookingStartDate && newStartDate <= bookingEndDate) {
-                    errorsObject.startDate = "Start date conflicts with an existing booking";
+                    errObj.startDate = "Start date conflicts with an existing booking";
                 }
                 //end date is during a booking
                 if (newEndDate >= bookingStartDate && newEndDate <= bookingEndDate) {
-                    errorsObject.endDate = "End date conflicts with an existing booking";
+                    errObj.endDate = "End date conflicts with an existing booking";
                 }
 
                 if (newStartDate < bookingStartDate && newEndDate > bookingEndDate) {
-                    errorsObject.startDate = "Start date conflicts with an existing booking";
-                    errorsObject.endDate = "End date conflicts with an existing booking";
+                    errObj.startDate = "Start date conflicts with an existing booking";
+                    errObj.endDate = "End date conflicts with an existing booking";
                 }
 
                 if (newStartDate === bookingStartDate) {
-                    errorsObject.startDate = "Start date conflicts with an existing booking";
+                    errObj.startDate = "Start date conflicts with an existing booking";
                 }
 
                 if (newEndDate === bookingEndDate) {
-                    errorsObject.endDate = "End date conflicts with an existing booking";
+                    errObj.endDate = "End date conflicts with an existing booking";
                 }
 
-                if (errorsObject.startDate || errorsObject.endDate) {
+                if (errObj.startDate || errObj.endDate) {
                     return res.status(403).json({
-                        "message": "Sorry, this spot is already booked for the specified dates",
-                        "errors": errorsObject
+                        message: "Sorry, this spot is already booked for the specified dates",
+                        errors: errObj
                     });
                 }
             });
@@ -130,8 +130,8 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
                     endDate
                 });
             } else {
-                res.status(403).json({
-                    "message": "Forbidden"
+                return res.status(403).json({
+                    message: "Forbidden"
                 });
             }
 
@@ -150,12 +150,12 @@ router.delete("/:bookingId", requireAuth, async (req, res) => {
 
     if (!booking) res.status(404).json({ message: "Booking couldn't be found" })
 
-    if (booking.userId !== user.id) res.status(400).json({ message: "Bad request" })
+    if (booking.userId !== user.id) return res.status(403).json({ message: "Forbidden" })
 
     const startDate = booking.startDate
     const currDate = new Date()
     console.log(startDate, currDate)
-    if (startDate <= currDate) res.status(403).json({ message: "Bookings that have already started can't be deleted" })
+    if (startDate <= currDate) return res.status(403).json({ message: "Bookings that have already started can't be deleted" })
 
     await booking.destroy()
     res.status(200).json({ message: "Successfully deleted" })

@@ -49,10 +49,10 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
     const revs = await Review.findByPk(req.params.reviewId)
     const { user } = req
     if (!revs) {
-        res.status(404).json({ message: "Review couldn't be found" })
+        return res.status(404).json({ message: "Review couldn't be found" })
     }
     if (revs.userId !== user.id) {
-        res.status(403).json({ message: "Forbidden" })
+        return res.status(403).json({ message: "Forbidden" })
     }
 
     const { review, stars } = req.body
@@ -82,10 +82,10 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const review = await Review.findByPk(req.params.reviewId)
     const { user } = req
     if (!review) {
-        res.status(404).json({ message: "Review couldn't be found" })
+        return res.status(404).json({ message: "Review couldn't be found" })
     }
     if (review.userId !== user.id) {
-        res.status(400).json({ message: "Forbidden" })
+        return res.status(400).json({ message: "Forbidden" })
     }
     const spot = await Spot.findByPk(review.spotId)
     const { url, preview } = req.body
@@ -96,7 +96,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     if (preview === true) spot.previewImage = url
 
     if (otherRevImgs.length > 9) {
-        res.status(403).json({ message: "Maximum number of images for this resource was reached" })
+        return res.status(403).json({ message: "Maximum number of images for this resource was reached" })
     } else {
         let newRevImg = await review.createReviewImage({
             url, reviewId: req.params.reviewId
