@@ -82,7 +82,8 @@ router.get("/", queryFilters, async (req, res) => {
         spotData.lat = parseFloat(spotData.lat);
         spotData.lng = parseFloat(spotData.lng);
         spotData.price = parseFloat(spotData.price);
-
+        spotData.updatedAt = spotData.updatedAt.toLocaleString()
+        spotData.createdAt = spotData.createdAt.toLocaleString()
         return spotData
     });
 
@@ -147,6 +148,9 @@ router.get('/current', requireAuth, async (req, res) => {
         rdel.lat = parseFloat(rdel.lat);
         rdel.lng = parseFloat(rdel.lng);
         rdel.price = parseFloat(rdel.price);
+        rdel.createdAt = rdel.createdAt.toLocaleString();
+        rdel.updatedAt = rdel.updatedAt.toLocaleString();
+
         return rdel
     });
 
@@ -195,6 +199,9 @@ router.get('/:spotId', async (req, res) => {
     spot.lat = parseFloat(spot.lat);
     spot.lng = parseFloat(spot.lng);
     spot.price = parseFloat(spot.price);
+    spot.createdAt = spot.createdAt.toLocaleString();
+    spot.updatedAt = spot.updatedAt.toLocaleString();
+
 
     spot.avgRating = avgRating ? avgRating : `Spot not rated`
     spot.SpotImages = spotImage
@@ -227,6 +234,9 @@ router.post('/', requireAuth, checkSpotDetails, async (req, res) => {
     spot.lat = parseFloat(spot.lat);
     spot.lng = parseFloat(spot.lng);
     spot.price = parseFloat(spot.price);
+    spot.createdAt = spot.createdAt.toLocaleString();
+    spot.updatedAt = spot.updatedAt.toLocaleString();
+
     res.status(201).json({
         id: spot.id,
         ownerId: spot.ownerId,
@@ -300,6 +310,9 @@ router.put('/:spotId', requireAuth, checkSpotDetails, async (req, res) => {
     spot.name = name
     spot.description = description
     spot.price = price
+    spot.createdAt = spot.createdAt.toLocaleString();
+    spot.updatedAt = spot.updatedAt.toLocaleString();
+
 
 
     await spot.save()
@@ -348,6 +361,9 @@ router.get('/:spotId/reviews', async (req, res) => {
             attributes: ['id', 'url']
         }]
     })
+    reviews.createdAt = reviews.createdAt.toLocaleString();
+    reviews.updatedAt = reviews.updatedAt.toLocaleString();
+
     res.status(200).json({ Reviews: reviews })
 })
 
@@ -392,6 +408,9 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
             userId: user.id,
             spotId, review, stars
         })
+        newRev.createdAt = newRev.createdAt.toLocaleString();
+        newRev.updatedAt = newRev.updatedAt.toLocaleString();
+
         return res.status(201).json(newRev)
     }
 
@@ -411,14 +430,26 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
             where: { spotId: spot.id },
             include: { model: User, attributes: ['id', 'firstName', 'lastName'] }
         })
-        return res.status(200).json({ Bookings: allBookings })
+        const formattedBookings = allBookings.map(booking => ({
+            spotId: booking.spotId,
+            startDate: booking.startDate.toLocaleDateString(),
+            endDate: booking.endDate.toLocaleDateString()
+        }));
+
+        return res.status(200).json({ Bookings: formattedBookings });
     }
     if (spot.ownerId !== user.id) {
         const allBookings = await Booking.findAll({
             where: { spotId: spot.id },
             attributes: ['spotId', 'startDate', 'endDate']
         })
-        return res.status(200).json({ Bookings: allBookings })
+        const formattedBookings = allBookings.map(booking => ({
+            spotId: booking.spotId,
+            startDate: booking.startDate.toLocaleDateString(),
+            endDate: booking.endDate.toLocaleDateString()
+        }));
+
+        return res.status(200).json({ Bookings: formattedBookings });
     }
 })
 
@@ -559,6 +590,14 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     body.spotId = spot.id;
 
     const newBooking = await Booking.create(body);
-    res.json(newBooking);
+    const formattedBooking = {
+        ...newBooking.dataValues,
+        startDate: newBooking.startDate.toLocaleDateString(),
+        endDate: newBooking.endDate.toLocaleDateString(),
+        createdAt: newBooking.createdAt.toLocaleString(),
+        updatedAt: newBooking.updatedAt.toLocaleString(),
+    };
+
+    res.json(formattedBooking);
 });
 module.exports = router

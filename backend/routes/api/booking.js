@@ -16,10 +16,17 @@ router.get('/current', requireAuth, async (req, res) => {
     })
     // Convert lat, lng, and price to numbers in each Spot
     currUserBookings.forEach((booking) => {
+        booking.startDate = booking.startDate.toLocaleDateString();
+        booking.endDate = booking.endDate.toLocaleDateString();
+        booking.createdAt = booking.createdAt.toLocaleDateString();
+        booking.updatedAt = booking.updatedAt.toLocaleDateString();
+
         const spot = booking.Spot;
         spot.lat = parseFloat(spot.lat);
         spot.lng = parseFloat(spot.lng);
         spot.price = parseFloat(spot.price);
+        spot.createdAt = spot.createdAt.toLocaleDateString();
+        spot.updatedAt = spot.updatedAt.toLocaleDateString();
     });
     res.status(200).json({ Bookings: currUserBookings })
 })

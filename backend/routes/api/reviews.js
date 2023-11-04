@@ -41,10 +41,16 @@ router.get('/current', requireAuth, async (req, res) => {
     })
     // Convert lat, lng, and price to numbers in each Spot
     currUserRevs.forEach((review) => {
+        review.createdAt = review.createdAt.toLocaleString();
+        review.updatedAt = review.updatedAt.toLocaleString();
+
         const spot = review.Spot;
         spot.lat = parseFloat(spot.lat);
         spot.lng = parseFloat(spot.lng);
         spot.price = parseFloat(spot.price);
+        spot.createdAt = spot.createdAt.toLocaleString();
+        spot.updatedAt = spot.updatedAt.toLocaleString();
+
     });
     res.status(200).json({ Reviews: currUserRevs })
 })
@@ -78,6 +84,9 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
     }
     revs.review = review
     revs.stars = stars
+    revs.createdAt = revs.createdAt.toLocaleString();
+    revs.updatedAt = revs.updatedAt.toLocaleString();
+
     await revs.save()
     res.status(200).json(revs)
 })
