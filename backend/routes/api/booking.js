@@ -6,7 +6,7 @@ const { Op } = require("sequelize")
 //get all CU bookings
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req
-    const timeZone = 'EST'
+    const timeZone = 'America/New_York'
     const currUserBookings = await Booking.findAll({
         where: { userId: user.id },
         include: {
@@ -140,9 +140,11 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
 
             //authorization check
             if (user.id === bookingUserId) {
+                booking.startDate = startDate.toLocaleDateString('en-US', { timeZone })
+                booking.endDate = endDate.toLocaleDateString('en-US', { timeZone })
                 booking.update({
-                    startDate: startDate.toLocaleDateString('en-US', { timeZone }),
-                    endDate: endDate.toLocaleDateString('en-US', { timeZone })
+                    startDate,
+                    endDate
                 });
             } else {
                 return res.status(403).json({

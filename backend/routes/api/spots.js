@@ -293,7 +293,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 router.put('/:spotId', requireAuth, checkSpotDetails, async (req, res) => {
     const spot = await Spot.findByPk(req.params.spotId)
     const timeZone = 'EST'
-    const { address, city, state, country, lat, lng, name, description, price } = req.body
+    const { address, city, state, country, lat, lng, name, description, price, updatedAt, createdAt } = req.body
     const { user } = req
     if (!spot) {
         return res.status(404).json({
@@ -315,8 +315,8 @@ router.put('/:spotId', requireAuth, checkSpotDetails, async (req, res) => {
     spot.name = name
     spot.description = description
     spot.price = price
-    spot.createdAt = spot.createdAt.toLocaleString('en-US', { timeZone });
     spot.updatedAt = spot.updatedAt.toLocaleString('en-US', { timeZone });
+    spot.createdAt = spot.createdAt.toLocaleString('en-US', { timeZone });
 
 
 
@@ -366,8 +366,8 @@ router.get('/:spotId/reviews', async (req, res) => {
             attributes: ['id', 'url']
         }]
     })
-    reviews.createdAt = reviews.createdAt.toLocaleString('en-US', { timeZone });
-    reviews.updatedAt = reviews.updatedAt.toLocaleString('en-US', { timeZone });
+    // reviews.createdAt = reviews.createdAt.toLocaleString('en-US', { timeZone });
+    // reviews.updatedAt = reviews.updatedAt.toLocaleString('en-US', { timeZone });
 
     res.status(200).json({ Reviews: reviews })
 })
@@ -603,7 +603,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
         createdAt: newBooking.createdAt.toLocaleString('en-US', { timeZone }),
         updatedAt: newBooking.updatedAt.toLocaleString('en-US', { timeZone }),
     };
-
+    await formattedBooking.save()
     res.json(formattedBooking);
 });
 module.exports = router

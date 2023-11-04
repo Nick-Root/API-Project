@@ -42,8 +42,8 @@ router.get('/current', requireAuth, async (req, res) => {
     })
     // Convert lat, lng, and price to numbers in each Spot
     currUserRevs.forEach((review) => {
-        review.createdAt = review.createdAt.toLocaleString('en-US', { timeZone });
-        review.updatedAt = review.updatedAt.toLocaleString('en-US', { timeZone });
+        // review.createdAt = review.createdAt.toLocaleString('en-US', { timeZone });
+        // review.updatedAt = review.updatedAt.toLocaleString('en-US', { timeZone });
 
         const spot = review.Spot;
         spot.lat = parseFloat(spot.lat);
@@ -99,6 +99,7 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
 router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const review = await Review.findByPk(req.params.reviewId)
     const { user } = req
+    const timeZone = 'EST'
     if (!review) {
         return res.status(404).json({ message: "Review couldn't be found" })
     }
@@ -119,6 +120,8 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
         let newRevImg = await review.createReviewImage({
             url, reviewId: req.params.reviewId
         })
+        newRevImg.createdAt = newRevImg.createdAt.toLocaleString('en-US', { timeZone });
+        newRevImg.updatedAt = newRevImg.updatedAt.toLocaleString('en-US', { timeZone });
         res.status(200).json(newRevImg)
     }
 })
