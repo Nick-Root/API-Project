@@ -6,6 +6,7 @@ const { Op } = require("sequelize")
 //get all CU bookings
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req
+    const timeZone = 'EST'
     const currUserBookings = await Booking.findAll({
         where: { userId: user.id },
         include: {
@@ -16,17 +17,17 @@ router.get('/current', requireAuth, async (req, res) => {
     })
     // Convert lat, lng, and price to numbers in each Spot
     currUserBookings.forEach((booking) => {
-        booking.startDate = booking.startDate.toLocaleDateString();
-        booking.endDate = booking.endDate.toLocaleDateString();
-        booking.createdAt = booking.createdAt.toLocaleDateString();
-        booking.updatedAt = booking.updatedAt.toLocaleDateString();
+        booking.startDate = booking.startDate.toLocaleDateString('en-US', { timeZone });
+        booking.endDate = booking.endDate.toLocaleDateString('en-US', { timeZone });
+        booking.createdAt = booking.createdAt.toLocaleDateString('en-US', { timeZone });
+        booking.updatedAt = booking.updatedAt.toLocaleDateString('en-US', { timeZone });
 
         const spot = booking.Spot;
         spot.lat = parseFloat(spot.lat);
         spot.lng = parseFloat(spot.lng);
         spot.price = parseFloat(spot.price);
-        spot.createdAt = spot.createdAt.toLocaleDateString();
-        spot.updatedAt = spot.updatedAt.toLocaleDateString();
+        spot.createdAt = spot.createdAt.toLocaleDateString('en-US', { timeZone });
+        spot.updatedAt = spot.updatedAt.toLocaleDateString('en-US', { timeZone });
     });
     res.status(200).json({ Bookings: currUserBookings })
 })
@@ -36,7 +37,7 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
     const { startDate, endDate } = req.body;
     const { bookingId } = req.params;
     const { user } = req;
-
+    const timeZone = 'EST'
     //setup for date comparison
     const newStartDate = new Date(startDate).getTime();
     const newEndDate = new Date(endDate).getTime();
@@ -140,8 +141,8 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
             //authorization check
             if (user.id === bookingUserId) {
                 booking.update({
-                    startDate,
-                    endDate
+                    startDate: startDate.toLocaleDateString('en-US', { timeZone }),
+                    endDate: endDate.toLocaleDateString('en-US', { timeZone })
                 });
             } else {
                 return res.status(403).json({

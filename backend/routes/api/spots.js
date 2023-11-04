@@ -51,6 +51,7 @@ const checkSpotDetails = [
 
 
 router.get("/", queryFilters, async (req, res) => {
+   const timeZone = 'EST'
     const {
         limit,
         offset,
@@ -82,8 +83,8 @@ router.get("/", queryFilters, async (req, res) => {
         spotData.lat = parseFloat(spotData.lat);
         spotData.lng = parseFloat(spotData.lng);
         spotData.price = parseFloat(spotData.price);
-        spotData.updatedAt = spotData.updatedAt.toLocaleString()
-        spotData.createdAt = spotData.createdAt.toLocaleString()
+        spotData.updatedAt = spotData.updatedAt.toLocaleString('en-US', { timeZone })
+        spotData.createdAt = spotData.createdAt.toLocaleString('en-US', { timeZone })
         return spotData
     });
 
@@ -117,6 +118,7 @@ router.get("/", queryFilters, async (req, res) => {
 //Get all Spots owned by CU
 router.get('/current', requireAuth, async (req, res) => {
     const currentId = req.user.id
+    const timeZone = 'EST'
     const spots = await Spot.findAll({
         where: {
             ownerId: currentId,
@@ -148,8 +150,8 @@ router.get('/current', requireAuth, async (req, res) => {
         rdel.lat = parseFloat(rdel.lat);
         rdel.lng = parseFloat(rdel.lng);
         rdel.price = parseFloat(rdel.price);
-        rdel.createdAt = rdel.createdAt.toLocaleString();
-        rdel.updatedAt = rdel.updatedAt.toLocaleString();
+        rdel.createdAt = rdel.createdAt.toLocaleString('en-US', { timeZone });
+        rdel.updatedAt = rdel.updatedAt.toLocaleString('en-US', { timeZone });
 
         return rdel
     });
@@ -164,6 +166,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 router.get('/:spotId', async (req, res) => {
     let spot = await Spot.findByPk(req.params.spotId)
+    const timeZone = 'EST'
     if (!spot) return res.status(404).json({ message: "Spot couldn't be found" })
     spot = spot.toJSON()
 
@@ -199,8 +202,8 @@ router.get('/:spotId', async (req, res) => {
     spot.lat = parseFloat(spot.lat);
     spot.lng = parseFloat(spot.lng);
     spot.price = parseFloat(spot.price);
-    spot.createdAt = spot.createdAt.toLocaleString();
-    spot.updatedAt = spot.updatedAt.toLocaleString();
+    spot.createdAt = spot.createdAt.toLocaleString('en-US', { timeZone });
+    spot.updatedAt = spot.updatedAt.toLocaleString('en-US', { timeZone });
 
 
     spot.avgRating = avgRating ? avgRating : `Spot not rated`
@@ -214,6 +217,7 @@ router.get('/:spotId', async (req, res) => {
 
 router.post('/', requireAuth, checkSpotDetails, async (req, res) => {
     const userId = req.user.id
+    const timeZone = 'EST'
     const { address, city, state, country, lat, lng, name, description, price } = req.body
     const newSpot = await Spot.create({
         ownerId: userId,
@@ -234,8 +238,8 @@ router.post('/', requireAuth, checkSpotDetails, async (req, res) => {
     spot.lat = parseFloat(spot.lat);
     spot.lng = parseFloat(spot.lng);
     spot.price = parseFloat(spot.price);
-    spot.createdAt = spot.createdAt.toLocaleString();
-    spot.updatedAt = spot.updatedAt.toLocaleString();
+    spot.createdAt = spot.createdAt.toLocaleString('en-US', { timeZone });
+    spot.updatedAt = spot.updatedAt.toLocaleString('en-US', { timeZone });
 
     res.status(201).json({
         id: spot.id,
@@ -288,6 +292,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 
 router.put('/:spotId', requireAuth, checkSpotDetails, async (req, res) => {
     const spot = await Spot.findByPk(req.params.spotId)
+    const timeZone = 'EST'
     const { address, city, state, country, lat, lng, name, description, price } = req.body
     const { user } = req
     if (!spot) {
@@ -310,8 +315,8 @@ router.put('/:spotId', requireAuth, checkSpotDetails, async (req, res) => {
     spot.name = name
     spot.description = description
     spot.price = price
-    spot.createdAt = spot.createdAt.toLocaleString();
-    spot.updatedAt = spot.updatedAt.toLocaleString();
+    spot.createdAt = spot.createdAt.toLocaleString('en-US', { timeZone });
+    spot.updatedAt = spot.updatedAt.toLocaleString('en-US', { timeZone });
 
 
 
@@ -347,7 +352,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
 
 router.get('/:spotId/reviews', async (req, res) => {
     let spot = await Spot.findByPk(req.params.spotId)
-
+    const timeZone = "EST"
     if (!spot) {
         return res.status(404).json({ message: "Spot couldn't be found" })
     }
@@ -361,8 +366,8 @@ router.get('/:spotId/reviews', async (req, res) => {
             attributes: ['id', 'url']
         }]
     })
-    reviews.createdAt = reviews.createdAt.toLocaleString();
-    reviews.updatedAt = reviews.updatedAt.toLocaleString();
+    reviews.createdAt = reviews.createdAt.toLocaleString('en-US', { timeZone });
+    reviews.updatedAt = reviews.updatedAt.toLocaleString('en-US', { timeZone });
 
     res.status(200).json({ Reviews: reviews })
 })
@@ -373,7 +378,7 @@ router.get('/:spotId/reviews', async (req, res) => {
 
 router.post('/:spotId/reviews', requireAuth, async (req, res) => {
     let spot = await Spot.findByPk(req.params.spotId)
-
+    const timeZone = 'EST'
     if (!spot) {
         return res.status(404).json({ message: "Spot couldn't be found" })
     }
@@ -408,8 +413,8 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
             userId: user.id,
             spotId, review, stars
         })
-        newRev.createdAt = newRev.createdAt.toLocaleString();
-        newRev.updatedAt = newRev.updatedAt.toLocaleString();
+        newRev.createdAt = newRev.createdAt.toLocaleString('en-US', { timeZone });
+        newRev.updatedAt = newRev.updatedAt.toLocaleString('en-US', { timeZone });
 
         return res.status(201).json(newRev)
     }
@@ -420,7 +425,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     let spot = await Spot.findByPk(req.params.spotId)
     const { user } = req
-
+    const timeZone = 'EST'
     if (!spot) {
         return res.status(404).json({ message: "Spot couldn't be found" })
     }
@@ -445,8 +450,8 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
         })
         const formattedBookings = allBookings.map(booking => ({
             spotId: booking.spotId,
-            startDate: booking.startDate.toLocaleDateString(),
-            endDate: booking.endDate.toLocaleDateString()
+            startDate: booking.startDate.toLocaleDateString('en-US', { timeZone }),
+            endDate: booking.endDate.toLocaleDateString('en-US', { timeZone })
         }));
 
         return res.status(200).json({ Bookings: formattedBookings });
@@ -456,6 +461,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 // Create a booking based on a spotId
 router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     const { user } = req;
+    const timeZone = 'EST'
     const userId = user.id;
 
     const spot = await Spot.findByPk(req.params.spotId);
@@ -592,10 +598,10 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     const newBooking = await Booking.create(body);
     const formattedBooking = {
         ...newBooking.dataValues,
-        startDate: newBooking.startDate.toLocaleDateString(),
-        endDate: newBooking.endDate.toLocaleDateString(),
-        createdAt: newBooking.createdAt.toLocaleString(),
-        updatedAt: newBooking.updatedAt.toLocaleString(),
+        startDate: newBooking.startDate.toLocaleDateString('en-US', { timeZone }),
+        endDate: newBooking.endDate.toLocaleDateString('en-US', { timeZone }),
+        createdAt: newBooking.createdAt.toLocaleString('en-US', { timeZone }),
+        updatedAt: newBooking.updatedAt.toLocaleString('en-US', { timeZone }),
     };
 
     res.json(formattedBooking);

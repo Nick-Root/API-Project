@@ -10,6 +10,7 @@ const router = express.Router()
 
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req
+    const timeZone = 'EST'
     const currUserRevs = await Review.findAll({
         where: {
             userId: user.id
@@ -41,15 +42,15 @@ router.get('/current', requireAuth, async (req, res) => {
     })
     // Convert lat, lng, and price to numbers in each Spot
     currUserRevs.forEach((review) => {
-        review.createdAt = review.createdAt.toLocaleString();
-        review.updatedAt = review.updatedAt.toLocaleString();
+        review.createdAt = review.createdAt.toLocaleString('en-US', { timeZone });
+        review.updatedAt = review.updatedAt.toLocaleString('en-US', { timeZone });
 
         const spot = review.Spot;
         spot.lat = parseFloat(spot.lat);
         spot.lng = parseFloat(spot.lng);
         spot.price = parseFloat(spot.price);
-        spot.createdAt = spot.createdAt.toLocaleString();
-        spot.updatedAt = spot.updatedAt.toLocaleString();
+        spot.createdAt = spot.createdAt.toLocaleString('en-US', { timeZone });
+        spot.updatedAt = spot.updatedAt.toLocaleString('en-US', { timeZone });
 
     });
     res.status(200).json({ Reviews: currUserRevs })
@@ -61,6 +62,7 @@ router.get('/current', requireAuth, async (req, res) => {
 router.put('/:reviewId', requireAuth, async (req, res, next) => {
     const revs = await Review.findByPk(req.params.reviewId)
     const { user } = req
+    const timeZone = 'EST'
     if (!revs) {
         return res.status(404).json({ message: "Review couldn't be found" })
     }
@@ -84,8 +86,8 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
     }
     revs.review = review
     revs.stars = stars
-    revs.createdAt = revs.createdAt.toLocaleString();
-    revs.updatedAt = revs.updatedAt.toLocaleString();
+    revs.createdAt = revs.createdAt.toLocaleString('en-US', { timeZone });
+    revs.updatedAt = revs.updatedAt.toLocaleString('en-US', { timeZone });
 
     await revs.save()
     res.status(200).json(revs)
