@@ -45,13 +45,14 @@ const checkSpotDetails = [
     check('price')
         .exists({ checkFalsy: true })
         .notEmpty()
+        .isFloat({ min: 0 })
         .withMessage("Price per day is required"),
     handleValidationErrors
 ]
 
 
 router.get("/", queryFilters, async (req, res) => {
-   const timeZone = 'EST'
+    const timeZone = 'EST'
     const {
         limit,
         offset,
@@ -316,8 +317,8 @@ router.put('/:spotId', requireAuth, checkSpotDetails, async (req, res) => {
     spot.description = description
     spot.price = price
 
-    
-    
+
+
     await spot.save()
     // spot.updatedAt = spot.updatedAt.toLocaleString('en-US', { timeZone });
     // spot.createdAt = spot.createdAt.toLocaleString('en-US', { timeZone });
@@ -385,7 +386,7 @@ router.get('/:spotId/reviews', async (req, res) => {
     // reviews.updatedAt = reviews.updatedAt.toLocaleString('en-US', { timeZone });
     const formatRevs = reviews.map((review) => ({
         ...review.toJSON(),
-        createdAt:review.createdAt.toLocaleString('en-US', { timeZone }),
+        createdAt: review.createdAt.toLocaleString('en-US', { timeZone }),
         updatedAt: review.updatedAt.toLocaleString('en-US', { timeZone })
     }))
     res.status(200).json({ Reviews: formatRevs })
