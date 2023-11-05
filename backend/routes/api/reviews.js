@@ -49,11 +49,16 @@ router.get('/current', requireAuth, async (req, res) => {
         spot.lat = parseFloat(spot.lat);
         spot.lng = parseFloat(spot.lng);
         spot.price = parseFloat(spot.price);
-        spot.createdAt = spot.createdAt.toLocaleString('en-US', { timeZone });
-        spot.updatedAt = spot.updatedAt.toLocaleString('en-US', { timeZone });
-
+        // spot.createdAt = spot.createdAt.toLocaleString('en-US', { timeZone });
+        // spot.updatedAt = spot.updatedAt.toLocaleString('en-US', { timeZone });
     });
-    res.status(200).json({ Reviews: currUserRevs })
+    const formattedRevs = currUserRevs.map((review) => ({
+        ...review.toJSON(),
+        createdAt: review.createdAt.toLocaleString('en-US', { timeZone }),
+        updatedAt: review.updatedAt.toLocaleString('en-US', { timeZone }),
+    }));
+
+    res.status(200).json({ Reviews: formattedRevs })
 })
 
 
@@ -86,11 +91,16 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
     }
     revs.review = review
     revs.stars = stars
-    revs.createdAt = revs.createdAt.toLocaleString('en-US', { timeZone });
-    revs.updatedAt = revs.updatedAt.toLocaleString('en-US', { timeZone });
+    // revs.createdAt = revs.createdAt.toLocaleString('en-US', { timeZone });
+    // revs.updatedAt = revs.updatedAt.toLocaleString('en-US', { timeZone });
 
     await revs.save()
-    res.status(200).json(revs)
+    const formatRevs = {
+        ...revs.toJSON(),
+        updatedAt: revs.createdAt.toLocaleString('en-US', { timeZone }),
+        createdAt:revs.updatedAt.toLocaleString('en-US', { timeZone })
+    }
+    res.status(200).json(formatRevs)
 })
 
 
@@ -122,7 +132,14 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
         })
         newRevImg.createdAt = newRevImg.createdAt.toLocaleString('en-US', { timeZone });
         newRevImg.updatedAt = newRevImg.updatedAt.toLocaleString('en-US', { timeZone });
-        res.status(200).json(newRevImg)
+        // await newRevImg.save()
+        res.status(200).json({
+            id: newRevImg.id,
+            url: newRevImg.url,
+            reviewId: newRevImg.reviewId,
+            updatedAt: newRevImg.createdAt.toLocaleString('en-US', { timeZone }),
+            createdAt: newRevImg.updatedAt.toLocaleString('en-US', { timeZone })
+        })
     }
 })
 

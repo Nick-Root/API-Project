@@ -10,26 +10,33 @@ router.get('/current', requireAuth, async (req, res) => {
     const currUserBookings = await Booking.findAll({
         where: { userId: user.id },
         include: {
-            model: Spot, attribute: [
+            model: Spot, attributes: [
                 'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price', 'previewImage'
             ]
         }
     })
     // Convert lat, lng, and price to numbers in each Spot
     currUserBookings.forEach((booking) => {
-        booking.startDate = booking.startDate.toLocaleDateString('en-US', { timeZone });
-        booking.endDate = booking.endDate.toLocaleDateString('en-US', { timeZone });
-        booking.createdAt = booking.createdAt.toLocaleDateString('en-US', { timeZone });
-        booking.updatedAt = booking.updatedAt.toLocaleDateString('en-US', { timeZone });
+        // booking.startDate = booking.startDate.toLocaleDateString('en-US', { timeZone })
+        // booking.endDate = booking.endDate.toLocaleDateString('en-US', { timeZone })
+        // booking.createdAt = booking.createdAt.toLocaleDateString('en-US', { timeZone })
+        // booking.updatedAt = booking.updatedAt.toLocaleDateString('en-US', { timeZone })
 
         const spot = booking.Spot;
         spot.lat = parseFloat(spot.lat);
         spot.lng = parseFloat(spot.lng);
         spot.price = parseFloat(spot.price);
-        spot.createdAt = spot.createdAt.toLocaleDateString('en-US', { timeZone });
-        spot.updatedAt = spot.updatedAt.toLocaleDateString('en-US', { timeZone });
+        // spot.createdAt = spot.createdAt.toLocaleDateString('en-US', { timeZone });
+        // spot.updatedAt = spot.updatedAt.toLocaleDateString('en-US', { timeZone });
     });
-    res.status(200).json({ Bookings: currUserBookings })
+   const formatCurrBookings = currUserBookings.map((booking) => ({
+        ...booking.toJSON(),
+        startDate: booking.startDate.toLocaleDateString('en-US', { timeZone }),
+        endDate: booking.endDate.toLocaleDateString('en-US', { timeZone }),
+        updatedAt: booking.updatedAt.toLocaleString('en-US', { timeZone }),
+        createdAt: booking.createdAt.toLocaleString('en-US', { timeZone })
+    }))
+    res.status(200).json({ Bookings: formatCurrBookings })
 })
 
 //edit a booking
@@ -76,13 +83,13 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
         });
     }
 
-    try {
+    
         const booking = await Booking.findByPk(bookingId, {
             attributes: ["id", "spotId", "userId", "startDate", "endDate", "createdAt", "updatedAt"]
         });
 
         const bookingUserId = booking.dataValues.userId;
-
+        if (!booking) res.status(404).json({message: "Booking not found"})
         if (booking.dataValues.id === bookingId && user.id === bookingUserId) {
             booking.update({
                 startDate,
@@ -140,25 +147,28 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
 
             //authorization check
             if (user.id === bookingUserId) {
-                booking.startDate = startDate.toLocaleDateString('en-US', { timeZone })
-                booking.endDate = endDate.toLocaleDateString('en-US', { timeZone })
                 booking.update({
                     startDate,
                     endDate
                 });
+                // booking.startDate = startDate.toLocaleDateString('en-US', { timeZone })
+                // booking.endDate = endDate.toLocaleDateString('en-US', { timeZone })
+                const formatBooking = {
+                ...booking.toJSON(),
+                startDate: booking.startDate.toLocaleDateString('en-US', { timeZone }),
+                endDate: booking.endDate.toLocaleDateString('en-US', { timeZone }),
+                updatedAt: booking.updatedAt.toLocaleString('en-US', { timeZone}),
+                createdAt: booking.createdAt.toLocaleString('en-US', { timeZone})
+            }
+          return  res.status(200).json(formatBooking);
             } else {
                 return res.status(403).json({
                     message: "Forbidden"
                 });
             }
-
-            res.json(booking);
+            
         }
-    } catch (error) {
-        res.status(404).json({
-            "message": "Booking couldn't be found"
-        });
-    }
+    
 });
 //delete a booking
 router.delete("/:bookingId", requireAuth, async (req, res) => {
