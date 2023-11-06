@@ -92,21 +92,21 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
 
     // const bookingUserId = booking.dataValues.userId;
     if (!booking) return res.status(404).json({ message: "Booking not found" })
-    // if (booking.id === bookingId && user.id === booking.userId) {
-    //     booking.update({
-    //         startDate: newStartDate,
-    //         endDate: newEndDate
-    //     });
-    //     res.status(200).json(booking);
-    // } else {
-    //get info for current bookings
-    const currentBookings = await Booking.findAll({
-        where: {
-            spotId: booking.spotId,
-            id: { [Op.not]: booking.id }
-        }
-    });
-    if (user.id === booking.userId) {
+    if (booking.id === bookingId && user.id === booking.userId) {
+        booking.update({
+            startDate: newStartDate,
+            endDate: newEndDate
+        });
+        res.status(200).json(booking);
+    } else {
+        //get info for current bookings
+        const currentBookings = await Booking.findAll({
+            where: {
+                spotId: booking.spotId,
+                id: { [Op.not]: booking.id }
+            }
+        });
+        // if (user.id === booking.userId) {
         currentBookings.forEach((booking) => {
             //setup for date comparisons
             const bookingStartDate = new Date(booking.dataValues.startDate).getTime();
@@ -179,13 +179,13 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
 
 
         return res.status(200).json(formatBooking);
-    } else {
-        return res.status(403).json({
-            message: "Forbidden"
-        });
-    }
+        {
+            return res.status(403).json({
+                message: "Forbidden"
+            });
+        }
 
-}
+    }
 
 );
 //delete a booking
