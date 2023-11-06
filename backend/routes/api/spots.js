@@ -420,9 +420,14 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
 
     let errors = []
     if (!review) errors.push("Review text is required")
-    if (!stars) errors.push("Stars must be an integer from 1 to 5")
+    if (req.body.stars > 5 || req.body.stars < 1 || !stars) errors.push("Stars must be an integer from 1 to 5")
     if (errors.length) {
-        res.status(400).json({ message: "Validation error", errors })
+        res.status(400).json({
+            message: "Bad Request", errors: {
+                review: errors[0],
+                stars: errors[1]
+            }
+        })
         return
     }
 
