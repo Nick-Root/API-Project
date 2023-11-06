@@ -7,7 +7,6 @@ const { Op, Sequelize } = require("sequelize")
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req
     const timeZone = 'America/New_York'
-    const options = { timeZone: 'CET', year: 'numeric', month: '2-digit', day: '2-digit' }
     const currUserBookings = await Booking.findAll({
         where: { userId: user.id },
         include: {
@@ -18,10 +17,10 @@ router.get('/current', requireAuth, async (req, res) => {
     })
     // Convert lat, lng, and price to numbers in each Spot
     currUserBookings.forEach((booking) => {
-        booking.startDate = booking.startDate.toLocaleDateString('en-US', options)
-        booking.endDate = booking.endDate.toLocaleDateString('en-US', options)
-        booking.createdAt = booking.createdAt.toLocaleDateString('en-US', { timeZone })
-        booking.updatedAt = booking.updatedAt.toLocaleDateString('en-US', { timeZone })
+        // booking.startDate = booking.startDate.toLocaleDateString('en-US', { timeZone })
+        // booking.endDate = booking.endDate.toLocaleDateString('en-US', { timeZone })
+        // booking.createdAt = booking.createdAt.toLocaleDateString('en-US', { timeZone })
+        // booking.updatedAt = booking.updatedAt.toLocaleDateString('en-US', { timeZone })
 
         const spot = booking.Spot;
         spot.lat = parseFloat(spot.lat);
@@ -30,54 +29,52 @@ router.get('/current', requireAuth, async (req, res) => {
         // spot.createdAt = spot.createdAt.toLocaleDateString('en-US', { timeZone });
         // spot.updatedAt = spot.updatedAt.toLocaleDateString('en-US', { timeZone });
     });
+    const options = { timeZone: 'CET', year: 'numeric', month: '2-digit', day: '2-digit' }
 
-
-    // const formatCurrBookings = currUserBookings.map((booking) => ({
-    //     ...booking.toJSON(),
-    //     startDate: booking.startDate.toLocaleDateString('en-US', options),
-    //     endDate: booking.endDate.toLocaleDateString('en-US', options),
-    //     updatedAt: booking.updatedAt.toLocaleString('en-US', { timeZone }),
-    //     createdAt: booking.createdAt.toLocaleString('en-US', { timeZone })
-    // }))
-    res.status(200).json({ Bookings: currUserBookings })
+    const formatCurrBookings = currUserBookings.map((booking) => ({
+        ...booking.toJSON(),
+        startDate: booking.startDate.toLocaleDateString('en-US', options),
+        endDate: booking.endDate.toLocaleDateString('en-US', options),
+        updatedAt: booking.updatedAt.toLocaleString('en-US', { timeZone }),
+        createdAt: booking.createdAt.toLocaleString('en-US', { timeZone })
+    }))
+    res.status(200).json({ Bookings: formatCurrBookings })
 })
 
-//edit a booking
+// Edit a booking
 router.put("/:bookingId", requireAuth, async (req, res) => {
     const { startDate, endDate } = req.body;
     const { bookingId } = req.params;
     const { user } = req;
-    const timeZone = 'EST'
-    //setup for date comparison
+    const timeZone = 'EST';
+
+    // Setup for date comparison
     const newStartDate = new Date(startDate).getTime();
     const newEndDate = new Date(endDate).getTime();
-    let newStartTime = new Date(startDate);
-    let newEndTime = new Date(endDate);
-    //body validations
+
+    // Body validations
     const errorObj = {};
 
     if (!startDate) {
         errorObj.startDate = "Please provide a valid Start Date";
     }
+
     if (!endDate) {
         errorObj.endDate = "Please provide a valid End Date";
     }
 
-    if (errorObj.startDate || errorObj.endDate) {
-        return res.status(400).json({ message: "Bad Request", errors: errorObj });
+    if (newEndDate <= newStartDate) {
+        errorObj.endDate = "End date must come after the start date";
     }
 
-    //end must come after start
-    if (newEndDate <= newStartDate) {
+    if (Object.keys(errorObj).length > 0) {
         return res.status(400).json({
             message: "Bad Request",
-            errors: {
-                endDate: "endDate cannot come before startDate"
-            }
+            errors: errorObj
         });
     }
 
-    //past date check
+    // Past date check
     const currentDate = new Date().getTime();
     const testEndDate = new Date(endDate).getTime();
     if (currentDate >= testEndDate) {
@@ -86,21 +83,22 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
         });
     }
 
-
     const booking = await Booking.findByPk(bookingId, {
         attributes: ["id", "spotId", "userId", "startDate", "endDate", "createdAt", "updatedAt"]
     });
 
-    // const bookingUserId = booking.dataValues.userId;
-    if (!booking) return res.status(404).json({ message: "Booking not found" })
-    // if (booking.id === bookingId && user.id === booking.userId) {
-    //     booking.update({
-    //         startDate: newStartDate,
-    //         endDate: newEndDate
-    //     });
-    //     res.status(200).json(booking);
-    // } else {
-    //get info for current bookings
+    if (!booking) {
+        return res.status(404).json({ message: "Booking not found" });
+    }
+
+    // Authorization check
+    if (user.id !== booking.userId) {
+        return res.status(403).json({
+            message: "Forbidden"
+        });
+    }
+
+    // Get other bookings for the same spot
     const currentBookings = await Booking.findAll({
         where: {
             spotId: booking.spotId,
@@ -108,87 +106,70 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
         }
     });
 
-    currentBookings.forEach((booking) => {
-        //setup for date comparisons
-        const bookingStartDate = new Date(booking.dataValues.startDate).getTime();
-        const bookingEndDate = new Date(booking.dataValues.endDate).getTime();
+    // Check for date conflicts with other bookings
+    for (const currentBooking of currentBookings) {
+        // Setup for date comparisons
+        const bookingStartDate = new Date(currentBooking.startDate).getTime();
+        const bookingEndDate = new Date(currentBooking.endDate).getTime();
 
-        //check if this spot has been booked for these dates
-        const errObj = {};
-        // if (newStartDate === newEndDate) {
-        //     return res.status(403).json({ message: "Bad Request", errors: { endDate: "endDate cannot come before startDate" } })
-        // }
-        //start date is during a booking
         if (newStartDate >= bookingStartDate && newStartDate <= bookingEndDate) {
-            errObj.startDate = "Start date conflicts with an existing booking";
-            return res.status(403).json({ message: "Sorry, this spot is already booked for the specified dates", errObj })
+            errorObj.startDate = "Start date conflicts with an existing booking";
+            return res.status(403).json({
+                message: "Sorry, this spot is already booked for the specified dates",
+                errors: errorObj
+            });
         }
-        //end date is during a booking
+
         if (newEndDate >= bookingStartDate && newEndDate <= bookingEndDate) {
-            errObj.endDate = "End date conflicts with an existing booking";
-            return res.status(403).json({ message: "Sorry, this spot is already booked for the specified dates", errObj })
+            errorObj.endDate = "End date conflicts with an existing booking";
+            return res.status(403).json({
+                message: "Sorry, this spot is already booked for the specified dates",
+                errors: errorObj
+            });
         }
 
         if (newStartDate < bookingStartDate && newEndDate > bookingEndDate) {
-            errObj.startDate = "Start date conflicts with an existing booking";
-            errObj.endDate = "End date conflicts with an existing booking";
-            return res.status(403).json({ message: "Sorry, this spot is already booked for the specified dates", errObj })
+            errorObj.startDate = "Start date conflicts with an existing booking";
+            errorObj.endDate = "End date conflicts with an existing booking";
+            return res.status(403).json({
+                message: "Sorry, this spot is already booked for the specified dates",
+                errors: errorObj
+            });
         }
 
         if (newStartDate === bookingStartDate) {
-            errObj.startDate = "Start date conflicts with an existing booking";
-            return res.status(403).json({ message: "Sorry, this spot is already booked for the specified dates", errObj })
+            errorObj.startDate = "Start date conflicts with an existing booking";
+            return res.status(403).json({
+                message: "Sorry, this spot is already booked for the specified dates",
+                errors: errorObj
+            });
         }
 
         if (newEndDate === bookingEndDate) {
-            errObj.endDate = "End date conflicts with an existing booking";
-            return res.status(403).json({ message: "Sorry, this spot is already booked for the specified dates", errObj })
-        }
-
-        if (errObj.startDate || errObj.endDate) {
+            errorObj.endDate = "End date conflicts with an existing booking";
             return res.status(403).json({
                 message: "Sorry, this spot is already booked for the specified dates",
-                errors: errObj
+                errors: errorObj
             });
         }
-    });
-
-    //authorization check
-    if (user.id === booking.userId) {
-        booking.update({
-            startDate: newStartDate,
-            endDate
-        });
-        await booking.save()
-
-        const options = { timeZone: 'CET', year: 'numeric', month: '2-digit', day: '2-digit' }
-
-        // booking.updatedAt = booking.updatedAt.toLocaleString('en-US', { timeZone })
-        // console.log(newStartDate.toDateString, newEndDate   )
-        const formatBooking = {
-            ...booking.toJSON(),
-            startDate: booking.startDate.toLocaleString('en-US', options),
-            endDate: booking.endDate.toLocaleString('en-US', options),
-            updatedAt: booking.updatedAt.toLocaleString('en-US', { timeZone }),
-            createdAt: booking.createdAt.toLocaleString('en-US', { timeZone })
-        }
-
-
-
-
-
-
-
-        return res.status(200).json(formatBooking);
-    } else {
-        return res.status(403).json({
-            message: "Forbidden"
-        });
     }
 
-}
+    // Update the booking in the database
+    booking.startDate = newStartDate;
+    booking.endDate = newEndDate;
+    await booking.save();
 
-);
+    const options = { timeZone: 'CET', year: 'numeric', month: '2-digit', day: '2-digit' };
+    const formatBooking = {
+        ...booking.toJSON(),
+        startDate: new Date(booking.startDate).toLocaleString('en-US', options),
+        endDate: new Date(booking.endDate).toLocaleString('en-US', options),
+        updatedAt: booking.updatedAt.toLocaleString('en-US', { timeZone }),
+        createdAt: booking.createdAt.toLocaleString('en-US', { timeZone })
+    };
+
+    return res.status(200).json(formatBooking);
+});
 //delete a booking
 router.delete("/:bookingId", requireAuth, async (req, res) => {
     const booking = await Booking.findByPk(req.params.bookingId)
