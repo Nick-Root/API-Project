@@ -7,6 +7,7 @@ const { Op, Sequelize } = require("sequelize")
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req
     const timeZone = 'America/New_York'
+    const options = { timeZone: 'CET', year: 'numeric', month: '2-digit', day: '2-digit' }
     const currUserBookings = await Booking.findAll({
         where: { userId: user.id },
         include: {
@@ -21,7 +22,7 @@ router.get('/current', requireAuth, async (req, res) => {
         booking.endDate = booking.endDate.toLocaleDateString('en-US', options)
         booking.createdAt = booking.createdAt.toLocaleDateString('en-US', { timeZone })
         booking.updatedAt = booking.updatedAt.toLocaleDateString('en-US', { timeZone })
-        const options = { timeZone: 'CET', year: 'numeric', month: '2-digit', day: '2-digit' }
+
         const spot = booking.Spot;
         spot.lat = parseFloat(spot.lat);
         spot.lng = parseFloat(spot.lng);
