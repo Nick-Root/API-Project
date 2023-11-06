@@ -97,8 +97,8 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
     await revs.save()
     const formatRevs = {
         ...revs.toJSON(),
-        updatedAt: revs.createdAt.toLocaleString('en-US', { timeZone }),
-        createdAt: revs.updatedAt.toLocaleString('en-US', { timeZone })
+        updatedAt: revs.updatedAt.toLocaleString('en-US', { timeZone }),
+        createdAt: revs.createdAt.toLocaleString('en-US', { timeZone })
     }
     res.status(200).json(formatRevs)
 })
