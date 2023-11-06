@@ -2,7 +2,7 @@ const express = require('express')
 const { Spot, Review, User, SpotImage, Booking, ReviewImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
 const router = express.Router()
-const { Op } = require("sequelize")
+const { Op, Sequelize } = require("sequelize")
 //get all CU bookings
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req
@@ -29,10 +29,12 @@ router.get('/current', requireAuth, async (req, res) => {
         // spot.createdAt = spot.createdAt.toLocaleDateString('en-US', { timeZone });
         // spot.updatedAt = spot.updatedAt.toLocaleDateString('en-US', { timeZone });
     });
+    const options = { timeZone: 'CET', year: 'numeric', month: '2-digit', day: '2-digit' }
+
     const formatCurrBookings = currUserBookings.map((booking) => ({
         ...booking.toJSON(),
-        startDate: booking.startDate.toLocaleDateString('en-US', { timeZone }),
-        endDate: booking.endDate.toLocaleDateString('en-US', { timeZone }),
+        startDate: booking.startDate.toLocaleDateString('en-US', options),
+        endDate: booking.endDate.toLocaleDateString('en-US', options),
         updatedAt: booking.updatedAt.toLocaleString('en-US', { timeZone }),
         createdAt: booking.createdAt.toLocaleString('en-US', { timeZone })
     }))
@@ -48,7 +50,8 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
     //setup for date comparison
     const newStartDate = new Date(startDate).getTime();
     const newEndDate = new Date(endDate).getTime();
-
+    let newStartTime = new Date(startDate);
+    let newEndTime = new Date(endDate);
     //body validations
     const errorObj = {};
 
@@ -91,8 +94,8 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
     if (!booking) return res.status(404).json({ message: "Booking not found" })
     if (booking.id === bookingId && user.id === booking.userId) {
         booking.update({
-            startDate,
-            endDate
+            startDate: newStartDate,
+            endDate: newEndDate
         });
         return res.status(200).json(booking);
     } else {
@@ -147,19 +150,28 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
         //authorization check
         if (user.id === booking.userId) {
             booking.update({
-                startDate,
-                endDate
+                startDate: newStartDate,
+                endDate: newEndDate
             });
             await booking.save()
-            // booking.startDate = startDate.toLocaleDateString('en-US', { timeZone })
-            // booking.endDate = endDate.toLocaleDateString('en-US', { timeZone })
+            const options = { timeZone: 'CET', year: 'numeric', month: '2-digit', day: '2-digit' }
+
+            // booking.updatedAt = booking.updatedAt.toLocaleString('en-US', { timeZone })
+            // console.log(newStartDate.toDateString, newEndDate   )
             const formatBooking = {
                 ...booking.toJSON(),
-                startDate: booking.startDate.toLocaleDateString('en-US', { timeZone }),
-                endDate: booking.endDate.toLocaleDateString('en-US', { timeZone }),
+                startDate: newStartTime.toLocaleString('en-US', options),
+                endDate: newEndTime.toLocaleString('en-US', options),
                 updatedAt: booking.updatedAt.toLocaleString('en-US', { timeZone }),
                 createdAt: booking.createdAt.toLocaleString('en-US', { timeZone })
             }
+
+
+
+
+
+
+
             return res.status(200).json(formatBooking);
         } else {
             return res.status(403).json({
