@@ -155,8 +155,8 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
     //authorization check
     if (user.id === booking.userId) {
         booking.update({
-            startDate: newStartDate,
-            endDate: newEndDate
+            startDate,
+            endDate
         });
         await booking.save()
 
