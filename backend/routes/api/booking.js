@@ -29,7 +29,7 @@ router.get('/current', requireAuth, async (req, res) => {
         // spot.createdAt = spot.createdAt.toLocaleDateString('en-US', { timeZone });
         // spot.updatedAt = spot.updatedAt.toLocaleDateString('en-US', { timeZone });
     });
-    const options = { timeZone: 'CET', year: 'numeric', month: '2-digit', day: '2-digit' }
+    const options = { timeZone: 'GMT', year: 'numeric', month: '2-digit', day: '2-digit' }
 
     const formatCurrBookings = currUserBookings.map((booking) => ({
         ...booking.toJSON(),
@@ -159,7 +159,7 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
     booking.endDate = newEndDate;
     await booking.save();
 
-    const options = { timeZone: 'CET', year: 'numeric', month: '2-digit', day: '2-digit' };
+    const options = { timeZone: 'GMT', year: 'numeric', month: '2-digit', day: '2-digit' };
     const formatBooking = {
         ...booking.toJSON(),
         startDate: new Date(booking.startDate).toLocaleString('en-US', options),

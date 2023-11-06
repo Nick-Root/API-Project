@@ -481,7 +481,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
             where: { spotId: spot.id },
             attributes: ['spotId', 'startDate', 'endDate']
         })
-        const options = { timeZone: 'CET', year: 'numeric', month: '2-digit', day: '2-digit' }
+        const options = { timeZone: 'GMT', year: 'numeric', month: '2-digit', day: '2-digit' }
         const formattedBookings = allBookings.map(booking => ({
             spotId: booking.spotId,
             startDate: booking.startDate.toLocaleDateString('en-US', options),
@@ -628,7 +628,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
 
     body.userId = userId;
     body.spotId = spot.id;
-    const options = { timeZone: 'CET', year: 'numeric', month: '2-digit', day: '2-digit' }
+    const options = { timeZone: 'GMT', year: 'numeric', month: '2-digit', day: '2-digit' }
     const newBooking = await Booking.create(body);
     await newBooking.save()
     const formattedBooking = {
