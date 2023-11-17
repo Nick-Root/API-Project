@@ -1,5 +1,45 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LoginFormPage from "./componenets/LoginFormPage/LoginFormPage"
+import SignupFormPage from "./componenets/SignUpFormPage/SignUpFormPage";
+import * as sessionActions from './store/session';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
+function Layout() {
+  const dispatch = useDispatch();
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    dispatch(sessionActions.restoreUser()).then(() => {
+      setIsLoaded(true)
+    });
+  }, [dispatch]);
+
+  return (
+    <>
+      {isLoaded && <Outlet />}
+    </>
+  );
+}
+
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <h1>Welcome!</h1>
+  },
+  {
+    path: '/login',
+    element: <LoginFormPage />
+  },
+  {
+    path: '/signup',
+    element: <SignupFormPage />
+  }
+])
+
 function App() {
-  return <h1> Hello from App </h1>;
+  return <RouterProvider router={router} />
 }
 
 export default App;
