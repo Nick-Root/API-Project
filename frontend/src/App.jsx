@@ -1,10 +1,10 @@
 import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
-import LoginFormPage from "./componenets/LoginFormPage/LoginFormPage"
-import SignupFormPage from "./componenets/SignUpFormPage/SignUpFormPage";
+// import LoginFormPage from "./componenets/LoginFormPage/LoginFormPage"
+import SignupFormPage from "./components/SignUpFormPage/SignUpFormPage";
 import * as sessionActions from './store/session';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import Navigation from "./componenets/Navigation/Navgation";
+import Navigation from "./components/Navigation/Navgation";
 
 function Layout() {
   const dispatch = useDispatch();
@@ -24,21 +24,21 @@ function Layout() {
   );
 }
 
-
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <h1>Welcome!</h1>
-  },
-  {
-    path: '/login',
-    element: <LoginFormPage />
-  },
-  {
-    path: '/signup',
-    element: <SignupFormPage />
+    element: <Layout />,
+    children: [
+      {
+        path: '/',
+        element: <h1>Welcome!</h1>
+      },
+      {
+        path: "/signup",
+        element: <SignupFormPage />
+      }
+    ]
   }
-])
+]);
 
 function App() {
   return <RouterProvider router={router} />
