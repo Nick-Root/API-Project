@@ -4,7 +4,7 @@ import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
 import * as sessionActions from './store/session';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import Navigation from "./components/Navigation/Navgation";
+import Navigation from "./components/Navigation/Navigation";
 
 function Layout() {
   const dispatch = useDispatch();
