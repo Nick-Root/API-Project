@@ -21,17 +21,17 @@ module.exports = {
     await SpotImage.bulkCreate([
       {
         spotId: 1,
-        url: 'spotimg1.com',
+        url: 'https://shorturl.at/aiyGY',
         preview: false
       },
       {
         spotId: 2,
-        url: 'spotimg2.com',
+        url: 'https://shorturl.at/clwKL',
         preview: false
       },
       {
         spotId: 3,
-        url: 'spotimg3.com',
+        url: 'https://shorturl.at/qzEHK',
         preview: false
       }
     ], { validate: true })
@@ -48,7 +48,7 @@ module.exports = {
     const Op = Sequelize.Op;
 
     return queryInterface.bulkDelete(options, {
-      url: { [Op.in]: ['spotimg1.com', 'spotimg2.com', 'spotimg3.com'] }
+      url: { [Op.in]: ['https://shorturl.at/aiyGY', 'https://shorturl.at/clwKL', 'https://shorturl.at/qzEHK'] }
     }, {});
   }
 };
