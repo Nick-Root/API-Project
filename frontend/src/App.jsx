@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Navigation from "./components/Navigation/Navigation";
 import HomePage from "./components/HomePage/HomePage";
+import SpotInfo from "./components/SpotInfo/SpotInfo";
 
 function Layout() {
   const dispatch = useDispatch();
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <HomePage />
+      },
+      {
+        path: '/spots/:spotId',
+        element: <SpotInfo />
       }
     ]
   }

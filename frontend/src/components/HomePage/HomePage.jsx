@@ -22,11 +22,11 @@ function HomePage() {
                 </div>
                 <div className='locaPrice'>
                     <p className='location'>{spot.city}, {spot.state}</p>
-                    <p className='price'>${spot.price}.00</p>
+                    <p className='price'>${spot.price}.00 night</p>
                 </div>
                 <div className='reviewSection'>
                     <div className='reviews'>
-                        < i className='fa-solid fa-star'></i>{spot.avgRating ? <p>{spot.avgRating}</p> : <p>New</p>}
+                        < i className='fa-solid fa-star'></i>{spot.avgRating ? <p>{parseFloat(`${spot.avgRating}`).toFixed(1)}</p> : <p>New</p>}
                     </div>
                 </div>
             </NavLink >
