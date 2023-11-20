@@ -47,6 +47,10 @@ h1 {
     padding: 12px 0px 12px 0px;
 }
 
+.loginbutton:enabled:hover {
+    cursor: pointer;
+}
+
 .loginbutton:enabled {
     color: white;
     background-color: #FF5A5A;

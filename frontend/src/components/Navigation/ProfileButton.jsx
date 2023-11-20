@@ -37,17 +37,19 @@ function ProfileButton({ user }) {
 
     return (
         <>
-            <button onClick={toggleMenu}>
-                <i className="fas fa-user-circle" />
+        <ul>
+            <button onClick={toggleMenu} className='menu'>
+              <i className="fa-solid fa-bars"></i>
+              <i className="fa-regular fa-user"></i>
             </button>
             <ul className={ulClassName} ref={ulRef}>
-                <li>{user.username}</li>
-                <li>{user.firstName} {user.lastName}</li>
-                <li>{user.email}</li>
-                <li>
-                    <button onClick={logout}>Log Out</button>
-                </li>
+                <ul className='text'><>Hello, {user.username}</></ul>
+                <ul className='text'>{user.email}</ul>
+                <ul>
+                    <button onClick={logout} className='button'>Log Out</button>
+                </ul>
             </ul>
+        </ul>
         </>
     );
 }

@@ -4,44 +4,89 @@ import ProfileButton from './ProfileButton';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from '../SignUpFormModal/SignUpFormModal';
+import { useEffect, useState, useRef } from 'react';
 import './Navigation.css';
+import '../OpenModalButton/OpenModalButton.css'
 
 function Navigation({ isLoaded }) {
     const sessionUser = useSelector((state) => state.session.user);
+    const [showMenu, setShowMenu] = useState(false);
+    const ulRef = useRef();
 
+    const toggleMenu = (e) => {
+        e.stopPropagation(); // Keep click from bubbling up to document and triggering closeMenu
+        // if (!showMenu) setShowMenu(true);
+        setShowMenu(!showMenu);
+    };
+
+    useEffect(() => {
+        if (!showMenu) return;
+
+        const closeMenu = (e) => {
+            // console.log('clicked: ' (e.target))
+            if (!ulRef.current.contains(e.target)) {
+                setShowMenu(false);
+            }
+        };
+        console.log(showMenu)
+        document.addEventListener('click', closeMenu);
+
+        return () => document.removeEventListener("click", closeMenu);
+    }, [showMenu]);
+    const ulClassName = "nav-dropdown" + (showMenu ? "" : " hidden");
     let sessionLinks;
     if (sessionUser) {
         sessionLinks = (
-            <li>
+            <>
                 <ProfileButton user={sessionUser} />
-            </li>
+            </>
         );
     } else {
         sessionLinks = (
             <>
-                <li>
+                 <ul>
+
+            <button onClick={toggleMenu} className='menu'>
+             <i className="fa-solid fa-bars"></i>
+              <i className="fa-regular fa-user"></i>
+              </button>
+            <ul className={ulClassName} ref={ulRef}>
+                <div className ='buttoncontainer'>
                     <OpenModalButton
                         buttonText="Log In"
+                        className='login'
                         modalComponent={<LoginFormModal />}
-                    />
-                </li>
-                <li>
+                        />
+               
                     <OpenModalButton
                         buttonText="Sign Up"
+                        className='signup'
                         modalComponent={<SignupFormModal />}
-                    />
-                </li>
+                        />
+
+                        </div>
+                        </ul>
+                
+            </ul>
             </>
 
         );
     }
     //blah
     return (
-        <ul>
-            <li>
-                <NavLink to="/">Home</NavLink>
-            </li>
+        <ul className='navbar'>
+            <>
+                <NavLink to="/" className='homelink'><i className="fa-solid fa-mountain-city"></i> Groundbnb</NavLink>
+            </>
+            {/* <ul>
+
+            <button onClick={toggleMenu}>
+                <i className="fa-solid fa-bars"></i>
+                <i className="fa-regular fa-user"></i>
+                </button>
+            </ul> */}
             {isLoaded && sessionLinks}
+            
         </ul>
     );
 }
