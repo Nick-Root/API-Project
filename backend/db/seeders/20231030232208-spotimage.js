@@ -33,6 +33,21 @@ module.exports = {
         spotId: 3,
         url: 'https://shorturl.at/qzEHK',
         preview: false
+      },
+      {
+        spotId: 4,
+        url: 'https://shorturl.at/bJL07',
+        preview: false
+      },
+      {
+        spotId: 5,
+        url: 'https://shorturl.at/dmOQ0',
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: 'https://shorturl.at/hit56',
+        preview: false
       }
     ], { validate: true })
   },
@@ -48,7 +63,7 @@ module.exports = {
     const Op = Sequelize.Op;
 
     return queryInterface.bulkDelete(options, {
-      url: { [Op.in]: ['https://shorturl.at/aiyGY', 'https://shorturl.at/clwKL', 'https://shorturl.at/qzEHK'] }
+      url: { [Op.in]: ['https://shorturl.at/aiyGY', 'https://shorturl.at/clwKL', 'https://shorturl.at/qzEHK', 'https://shorturl.at/hit56', 'https://shorturl.at/bJL07', 'https://shorturl.at/dmOQ0'] }
     }, {});
   }
 };

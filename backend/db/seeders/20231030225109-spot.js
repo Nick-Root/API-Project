@@ -29,8 +29,8 @@ module.exports = {
         country: "Countryone",
         lat: 23.456453,
         lng: 45.456433,
-        name: "Cool Spot",
-        description: "A pretty cool spot",
+        name: "Family House",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         price: 1500
 
       },
@@ -42,8 +42,8 @@ module.exports = {
         country: "Countrytwo",
         lat: 34.65763,
         lng: 23.35521,
-        name: "Alright Spot",
-        description: "A pretty alright spot",
+        name: "Party House",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         price: 1000
       },
       {
@@ -54,9 +54,45 @@ module.exports = {
         country: "Countrythree",
         lat: 38.23436,
         lng: 37.35622,
-        name: "Lame Spot",
-        description: "A pretty lame spot",
+        name: "Stone House",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         price: 65
+      },
+      {
+        ownerId: 1,
+        address: "91011 Address Road",
+        city: "Cityfour",
+        state: "Statefour",
+        country: "Countryfour",
+        lat: 38.23436,
+        lng: 37.35622,
+        name: "Relaxing Getaway Home",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        price: 2000
+      },
+      {
+        ownerId: 2,
+        address: "91011 Thing Lane",
+        city: "Cityfive",
+        state: "Statefive",
+        country: "Countryfive",
+        lat: 38.23436,
+        lng: 37.35622,
+        name: "Historic House",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        price: 1000
+      },
+      {
+        ownerId: 3,
+        address: "91011 Place Avenue",
+        city: "Citysix",
+        state: "Statesix",
+        country: "Countrysix",
+        lat: 38.23436,
+        lng: 37.35622,
+        name: "Boat House",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        price: 100
       }
     ], { validate: true })
   },
@@ -72,7 +108,7 @@ module.exports = {
     const Op = Sequelize.Op;
 
     return queryInterface.bulkDelete(options, {
-      city: { [Op.in]: ['Cityone', 'Citytwo', 'Citythree'] }
+      city: { [Op.in]: ['Cityone', 'Citytwo', 'Citythree', 'Cityfour', 'Cityfive', 'Citysix'] }
     }, {});
   }
 };

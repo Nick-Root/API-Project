@@ -64,6 +64,8 @@ export const spotsReducer = (state = initialState, action) => {
             return { ...state, allSpots: action.payload }
         case GET_SPOT_DETAILS:
             return { ...state, currSpot: action.payload }
+        default:
+            return state
     }
 }
 
