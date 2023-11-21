@@ -44,30 +44,30 @@ function Navigation({ isLoaded }) {
     } else {
         sessionLinks = (
             <>
-                 <ul>
+                <ul>
 
-            <button onClick={toggleMenu} className='menu'>
-             <i className="fa-solid fa-bars"></i>
-              <i className="fa-regular fa-user"></i>
-              </button>
-            <ul className={ulClassName} ref={ulRef}>
-                <div className ='buttoncontainer'>
-                    <OpenModalButton
-                        buttonText="Log In"
-                        className='login'
-                        modalComponent={<LoginFormModal />}
-                        />
-               
-                    <OpenModalButton
-                        buttonText="Sign Up"
-                        className='signup'
-                        modalComponent={<SignupFormModal />}
-                        />
+                    <button onClick={toggleMenu} className='menu'>
+                        <i className="fa-solid fa-bars"></i>
+                        <i className="fa-regular fa-user"></i>
+                    </button>
+                    <ul className={ulClassName} ref={ulRef}>
+                        <div className='buttoncontainer'>
+                            <OpenModalButton
+                                buttonText="Log In"
+                                className='login'
+                                modalComponent={<LoginFormModal />}
+                            />
+
+                            <OpenModalButton
+                                buttonText="Sign Up"
+                                className='signup'
+                                modalComponent={<SignupFormModal />}
+                            />
 
                         </div>
-                        </ul>
-                
-            </ul>
+                    </ul>
+
+                </ul>
             </>
 
         );
@@ -85,8 +85,11 @@ function Navigation({ isLoaded }) {
                 <i className="fa-regular fa-user"></i>
                 </button>
             </ul> */}
-            {isLoaded && sessionLinks}
-            
+            <div className='newSpotAndMenu'>
+                <NavLink to='/spots/new' className='newSpot'>Create A Spot</NavLink>
+                {isLoaded && sessionLinks}
+            </div>
+
         </ul>
     );
 }

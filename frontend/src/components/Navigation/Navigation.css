@@ -25,13 +25,16 @@ html {
     font-size: 20px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: bold;
-    color: red
+    color: red;
+    padding-top: 8px;
 }
 
 .menu {
+    display: inline-flex;
     border-radius: 30px;
     padding: 10px 20px 10px 20px;
-    cursor: pointer
+    cursor: pointer;
+
 }
 
 .fa-solid.fa-bars {
@@ -43,4 +46,17 @@ html {
     flex-direction: column;
     border: 2px solid black;
     background-color: white;
+}
+
+.newSpot {
+    display: inline-flex;
+    text-decoration: none;
+    padding-top: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.newSpotAndMenu {
+    display: inline-flex;
 }
