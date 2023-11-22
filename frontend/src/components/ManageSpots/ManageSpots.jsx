@@ -4,6 +4,8 @@ import { getAllSpotsFetch } from "../../store/spots";
 import { NavLink } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteModal from "../DeleteSpotModal/DeleteSpotModal";
+import './ManageSpots.css'
+
 
 function ManageUserSpots() {
     const dispatch = useDispatch()
@@ -22,8 +24,8 @@ function ManageUserSpots() {
     const usersSpots = spots.filter((spot) => spot.ownerId === user.id)
 
     const usersSpotsDisplay = usersSpots?.map((spot) => (
-        <div key={spot?.id} className="spotContainer">
-            <NavLink to={`/spots/${spot?.id}`}>
+        <div key={spot?.id} className="spotContain">
+            <NavLink to={`/spots/${spot.id}`}>
                 <div className='imgContainer'>
                     <div className='toolTip' title={spot.name}>
                         <img src={spot.previewImage} className='prevImg' />
@@ -40,7 +42,9 @@ function ManageUserSpots() {
                 </div>
             </NavLink >
             <div className='updateDelete'>
-                <NavLink to={`/spots/${spot.id}/edit`}>Update</NavLink>
+                <button className='updateASpot' onClick={`/spots/${spot.id}/edit`}>
+                    <NavLink to={`/spots/${spot.id}/edit`} className='updateNavLink'>Update</NavLink>
+                </button>
                 <div className='deleteButton'><OpenModalButton buttonText={"Delete"} modalComponent={<DeleteModal spot={spot} />} /></div>
             </div>
         </div >

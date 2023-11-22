@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createNewSpot, getAllSpotsFetch, newSpotImage, spotDetailsFetch } from "../../store/spots"
-
+import './CreateASpot.css'
 
 function CreateASpot() {
     const dispatch = useDispatch()
@@ -155,11 +155,13 @@ function CreateASpot() {
                         <p>Guests will only get your exact address once they booked a reservation</p>
                     </div>
                     <label>
+                        <p className='locaInputs'>Country</p>
                         {errors.find((error) => error.includes("Country"))}
                         <input
                             type='text'
                             placeholder="Country"
                             className='country'
+                            id='inputCreate'
                             value={country}
                             onChange={(e) => setCountry(e.target.value)}
                             required
@@ -167,51 +169,59 @@ function CreateASpot() {
 
                     </label>
                     <label>
+                        <p className='locaInputs'>Address</p>
                         {errors.find((error) => error.includes("Address"))}
                         <input
                             type='text'
                             placeholder='Address'
                             className='address'
+                            id='inputCreate'
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
                         ></input>
 
                     </label>
                     <label className="citystate">
+                        <p className='locaInputs'>City</p>
                         {errors.find((error) => error.includes("Address", "State"))}
                         <input
                             type='text'
                             placeholder="City"
                             className='city'
+                            id='inputCreate'
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
                         ></input>
 
-                        ,
+                        <p className='locaInputs'>State</p>
                         <input
                             type='text'
                             placeholder="State"
                             className="state"
+                            id='inputCreate'
                             value={state}
                             onChange={(e) => setState(e.target.value)}
                         ></input>
 
                     </label>
                     <label className="latlng">
+                        <p className='locaInputs'>Latitude</p>
                         {errors.find((error) => error.includes("Latitude"))}
                         <input
                             type='text'
                             placeholder="Latitude"
                             className="lat"
+                            id='inputCreate'
                             value={lat}
                             onChange={(e) => setLat(e.target.value)}
                         ></input>
-                        ,
+                        <p className='locaInputs'>Longitude</p>
                         {errors.find((error) => error.includes("Longitude"))}
                         <input
                             type='text'
                             placeholder="Longitude"
                             className="lng"
+                            id='inputCreate'
                             value={lng}
                             onChange={(e) => setLng(e.target.value)}
                         ></input>
@@ -221,10 +231,12 @@ function CreateASpot() {
                     <h2>Describe your place to guests</h2>
                     <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood</p>
                     {errors.find((error) => error.includes("Description"))}
+                    <p className='locaInputs'>Description</p>
                     <input
                         type='textarea'
                         placeholder="Please write at least 30 characters"
                         className="desc"
+                        id='inputCreate'
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     ></input>
@@ -233,9 +245,11 @@ function CreateASpot() {
                     <h2>Create a title for your spot</h2>
                     <p>Catch guests attention with a spot title that highlights what makes your place special.</p>
                     {errors.find((error) => error.includes("Title"))}
+                    <p className='locaInputs'>Title</p>
                     <input
                         type='text'
                         placeholder="Name of your spot"
+                        id='inputCreate'
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     ></input>
@@ -244,47 +258,60 @@ function CreateASpot() {
                     <h2>Set a base price for your spot</h2>
                     <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
                     {errors.find((error) => error.includes("Price"))}
-                    $<input
-                        type="text"
-                        placeholder="Price per night(USD)"
-                        className='price'
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                    ></input>
+                    <p className='locaInputs'>Price</p>
+                    <div className='priceDiv'>
+                        $ <input
+                            type="text"
+                            placeholder="Price per night(USD)"
+                            id='inputCreate'
+                            className='priceInput'
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                        ></input>
+                    </div>
                 </div>
-                <div className='imgs'>
+                <div className='updateImgs'>
                     <h2>Liven up your spot with photos</h2>
                     <p>Submit a link to at least one photo to publish your spot</p>
+                    <p className='locaInputs'>Preview Image</p>
                     {errors.find((error) => error.includes("Preview"))}
                     {errors.find((error) => error.includes("Image"))}
                     <input
                         type='text'
                         placeholder="Preview Image URL"
-                        className='mainImg'
+                        id='inputCreate'
                         value={prevImg}
                         onChange={(e) => setPrevImg(e.target.value)}
                     ></input>
+                    <p className='locaInputs'>Image 1</p>
                     <input
                         type="text"
                         placeholder="Image URL"
+                        id='inputCreate'
                         value={imgTwo}
                         onChange={(e) => setImgTwo(e.target.value)}
                     ></input>
+                    <p className='locaInputs'>Image 2</p>
                     <input
                         type="text"
                         placeholder="Image URL"
+                        id='inputCreate'
                         value={imgThree}
                         onChange={(e) => setImgThree(e.target.value)}
                     ></input>
+                    <p className='locaInputs'>Image 3</p>
                     <input
                         type="text"
                         placeholder="Image URL"
+                        id='inputCreate'
                         value={imgFour}
                         onChange={(e) => setImgFour(e.target.value)}
                     ></input>
+                    <p className='locaInputs'>Image 4</p>
                     <input
                         type="text"
                         placeholder="Image URL"
+                        id='inputCreate'
                         value={imgFive}
                         onChange={(e) => setImgFive(e.target.value)}
                     ></input>
