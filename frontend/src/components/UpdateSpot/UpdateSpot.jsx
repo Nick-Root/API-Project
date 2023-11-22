@@ -1,43 +1,61 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { createNewSpot, getAllSpotsFetch, newSpotImage, spotDetailsFetch } from "../../store/spots"
+import { useNavigate, useParams } from "react-router-dom";
+import { spotDetailsFetch, spotUpdate } from "../../store/spots";
 
 
-function CreateASpot() {
+
+function UpdateSpot() {
     const dispatch = useDispatch()
-    const user = useSelector((state) => state.session.user)
     const navigate = useNavigate()
-    const [country, setCountry] = useState("")
-    const [address, setAddress] = useState("")
-    const [city, setCity] = useState("")
-    const [state, setState] = useState("")
-    const [lat, setLat] = useState(0)
-    const [lng, setLng] = useState(0)
-    const [description, setDescription] = useState("")
-    const [name, setName] = useState("")
-    const [price, setPrice] = useState("")
-    const [prevImg, setPrevImg] = useState("")
-    const [imgTwo, setImgTwo] = useState("")
-    const [imgThree, setImgThree] = useState("")
-    const [imgFour, setImgFour] = useState("")
-    const [imgFive, setImgFive] = useState("")
+    const { spotId } = useParams()
+
+    const spot = useSelector((state) => state.spots.currSpot)
+
+    const [country, setCountry] = useState(spot.country)
+    const [address, setAddress] = useState(spot.address)
+    const [city, setCity] = useState(spot.city)
+    const [state, setState] = useState(spot.state)
+    const [lat, setLat] = useState(spot.lat)
+    const [lng, setLng] = useState(spot.lng)
+    const [description, setDescription] = useState(spot.description)
+    const [name, setName] = useState(spot.name)
+    const [price, setPrice] = useState(spot.price)
+    const [prevImg, setPrevImg] = useState(spot.prevImg || "")
+    const [imgTwo, setImgTwo] = useState(spot.imgTwo || "")
+    const [imgThree, setImgThree] = useState(spot.imgThree || "")
+    const [imgFour, setImgFour] = useState(spot.imgFour || "")
+    const [imgFive, setImgFive] = useState(spot.imgFive || "")
     const [errors, setErrors] = useState([])
-    const allowedExtentions = [".jpg", ".jpeg", ".png"]
-    const errs = []
-    const imgs = []
-    if (prevImg) imgs.push(prevImg)
-    if (imgTwo) imgs.push(imgTwo)
-    if (imgThree) imgs.push(imgThree)
-    if (imgFour) imgs.push(imgFour)
-    if (imgFive) imgs.push(imgFive)
+
 
     useEffect(() => {
-        dispatch(getAllSpotsFetch())
-    }, [dispatch, user])
+        dispatch(spotDetailsFetch(spotId))
+    }, [dispatch, spotId])
+
+    useEffect(() => {
+        setCountry(spot.country || "")
+        setAddress(spot.address || "")
+        setCity(spot.city || "")
+        setState(spot.state || "")
+        setLat(spot.lat || 0)
+        setLng(spot.lng || 0)
+        setDescription(spot.description || "")
+        setName(spot.name || "")
+        setPrice(spot.price || "")
+        setPrevImg(spot.prevImg || "")
+        setImgTwo(spot.imgTwo || "")
+        setImgThree(spot.imgThree || "")
+        setImgFour(spot.imgFour || "")
+        setImgFive(spot.imgFive || "")
+    }, [spot])
+
+    // if (!spot) return null
+    // if (!spot.SpotImages) return null
 
     function validateInputs() {
         // e.preventDefault()
+        const errs = []
         console.log("Validate is running")
         if (!country) errs.push("Country is required")
         if (!address) errs.push("Address is required")
@@ -49,108 +67,43 @@ function CreateASpot() {
         if (!name) errs.push("Title is required")
         if (!price) errs.push("Price is required")
         if (!prevImg) errs.push("Preview image is required")
-        for (let i = 0; i < imgs.length; i++) {
-            const lowerImg = imgs[i].toLowerCase()
-            let validExt = false
-            for (let j = 0; j < allowedExtentions.length; j++) {
-                const ext = allowedExtentions[j]
-                if (lowerImg.endsWith(ext)) {
-                    validExt = true;
-                    break
-                }
-            }
-            if (!validExt) errs.push("Image must have a valid extention")
-        }
         setErrors(errs)
         // return errors.length === 0
     }
 
-    const handleSubmit = async (e) => {
+    const handleUpdate = async (e) => {
         e.preventDefault()
-        console.log("handle submit is running")
-        const spot = {
-            ownerId: user.id,
-            country,
-            address,
-            city,
-            state,
-            lat,
-            lng,
-            description,
-            name,
-            price
-        }
-        console.log("This is the spot: ", spot)
-        const previewImg = {
-            url: prevImg,
-            preview: true
-        }
-        console.log(errors)
-        if (!errors.length) {
-            console.log("preres")
-            const res = await dispatch(createNewSpot(spot))
-            console.log("inside if statement")
-            if (res) dispatch(newSpotImage(previewImg, res.id))
-            console.log("res spot", res)
 
-            if (imgTwo) {
-                const newImg = {
-                    url: imgTwo,
-                    preview: false
-                }
-                dispatch(newSpotImage(newImg, res.id))
-            }
-            if (imgThree) {
-                const newImg = {
-                    url: imgThree,
-                    preview: false
-                }
-                dispatch(newSpotImage(newImg, res.id))
-            }
-            if (imgFour) {
-                const newImg = {
-                    url: imgFour,
-                    preview: false
-                }
-                dispatch(newSpotImage(newImg, res.id))
-            }
-            if (imgFive) {
-                const newImg = {
-                    url: imgFive,
-                    preview: false
-                }
-                dispatch(newSpotImage(newImg, res.id))
+        if (errors.length === 0) {
+            const updatedSpot = {
+                country,
+                address,
+                city,
+                state,
+                lat,
+                lng,
+                description,
+                name,
+                price
             }
 
-            console.log("Spot post imgs: ", spot)
-            console.log("prenav")
-            dispatch(spotDetailsFetch(res.id))
-            navigate(`/spots/${res.id}`)
+            const res = await dispatch(spotUpdate(updatedSpot, spot.id))
 
-            setCountry("")
-            setAddress("")
-            setCity("")
-            setState("")
-            setLat("")
-            setLng("")
-            setDescription("")
-            setName("")
-            setPrice("")
-            setPrevImg("")
-            setImgTwo("")
-            setImgThree("")
-            setImgFour("")
-            setImgFive("")
-
+            if (res) {
+                navigate(`/spots/${res.id}`)
+            } else {
+                const errs = await res.json()
+                return errs
+            }
         }
     }
-
+    // const prevImg = spot.previewImage
     return (
         <div className='formContainer'>
-            <form className='createSpotForm' onSubmit={handleSubmit}>
+            <form className='createSpotForm' onSubmit={handleUpdate}>
                 <div className='firstBox'>
                     <div className='formText'>
-                        <h1>Create A Spot</h1>
+                        <h1>Update a Spot</h1>
                         <h2>Wheres your place located?</h2>
                         <p>Guests will only get your exact address once they booked a reservation</p>
                     </div>
@@ -261,7 +214,7 @@ function CreateASpot() {
                         type='text'
                         placeholder="Preview Image URL"
                         className='mainImg'
-                        value={prevImg}
+                        value={spot.previewImage}
                         onChange={(e) => setPrevImg(e.target.value)}
                     ></input>
                     <input
@@ -291,13 +244,13 @@ function CreateASpot() {
                 </div>
                 <div className='casButton'>
                     <button type='submit' className='cas' onClick={validateInputs}>
-                        Create Spot
+                        Update Spot
                     </button>
                 </div>
             </form>
         </div>
-    )
 
+    )
 }
 
-export default CreateASpot
+export default UpdateSpot

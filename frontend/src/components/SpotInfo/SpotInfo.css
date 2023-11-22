@@ -1,0 +1,31 @@
+#spotInfoDisplay {
+    /* display: flex; */
+    max-width: 1000px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.spotName {
+    display: flex;
+}
+
+.otherImgs {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid red;
+    height: 300px;
+    width: 200px
+}
+
+.extras {
+    display: flex;
+}
+
+.imgs {
+    display: flex;
+}
+
+.additionalImg {
+    display: flex;
+    width: 200px;
+    height: 150px
+}

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
@@ -25,9 +24,14 @@ function LoginFormModal() {
             });
     };
 
+    const demoUser = () => {
+        setCredential("Demolisher")
+        setPassword("demopass")
+    }
+
     return (
         <div className='main'>
-            <h1>Log In</h1>
+            <h1 className='loginsignup'>Log In</h1>
             <form onSubmit={handleSubmit}>
                 <label>
                     <input
@@ -53,6 +57,7 @@ function LoginFormModal() {
                     <p className='errors'>{errors.credential}</p>
                 )}
                 <button type="submit" className="loginbutton" disabled={credential.length < 4 || password.length < 6}>Log In</button>
+                <button className='demoButton' onClick={demoUser}>Demo User</button>
             </form>
         </div>
     );

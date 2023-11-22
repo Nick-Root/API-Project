@@ -29,7 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     preview: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: false,
+      onDelete: "CASCADE"
     }
   }, {
     sequelize,

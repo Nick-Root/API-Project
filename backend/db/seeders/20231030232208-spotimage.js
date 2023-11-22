@@ -22,6 +22,46 @@ module.exports = {
       {
         spotId: 1,
         url: 'https://shorturl.at/aiyGY',
+        preview: true
+      },
+      {
+        spotId: 1,
+        url: 'https://shorturl.at/aiyGY',
+        preview: false
+      },
+      {
+        spotId: 1,
+        url: 'https://shorturl.at/aiyGY',
+        preview: false
+      },
+      {
+        spotId: 1,
+        url: 'https://shorturl.at/aiyGY',
+        preview: false
+      },
+      {
+        spotId: 1,
+        url: 'https://shorturl.at/aiyGY',
+        preview: false
+      },
+      {
+        spotId: 2,
+        url: 'https://shorturl.at/clwKL',
+        preview: true
+      },
+      {
+        spotId: 2,
+        url: 'https://shorturl.at/clwKL',
+        preview: false
+      },
+      {
+        spotId: 2,
+        url: 'https://shorturl.at/clwKL',
+        preview: false
+      },
+      {
+        spotId: 2,
+        url: 'https://shorturl.at/clwKL',
         preview: false
       },
       {
@@ -32,6 +72,46 @@ module.exports = {
       {
         spotId: 3,
         url: 'https://shorturl.at/qzEHK',
+        preview: true
+      },
+      {
+        spotId: 3,
+        url: 'https://shorturl.at/qzEHK',
+        preview: false
+      },
+      {
+        spotId: 3,
+        url: 'https://shorturl.at/qzEHK',
+        preview: false
+      },
+      {
+        spotId: 3,
+        url: 'https://shorturl.at/qzEHK',
+        preview: false
+      },
+      {
+        spotId: 3,
+        url: 'https://shorturl.at/qzEHK',
+        preview: false
+      },
+      {
+        spotId: 4,
+        url: 'https://shorturl.at/bJL07',
+        preview: true
+      },
+      {
+        spotId: 4,
+        url: 'https://shorturl.at/bJL07',
+        preview: false
+      },
+      {
+        spotId: 4,
+        url: 'https://shorturl.at/bJL07',
+        preview: false
+      },
+      {
+        spotId: 4,
+        url: 'https://shorturl.at/bJL07',
         preview: false
       },
       {
@@ -42,13 +122,53 @@ module.exports = {
       {
         spotId: 5,
         url: 'https://shorturl.at/dmOQ0',
+        preview: true
+      },
+      {
+        spotId: 5,
+        url: 'https://shorturl.at/dmOQ0',
+        preview: false
+      },
+      {
+        spotId: 5,
+        url: 'https://shorturl.at/dmOQ0',
+        preview: false
+      },
+      {
+        spotId: 5,
+        url: 'https://shorturl.at/dmOQ0',
+        preview: false
+      },
+      {
+        spotId: 5,
+        url: 'https://shorturl.at/dmOQ0',
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: 'https://shorturl.at/hit56',
+        preview: true
+      },
+      {
+        spotId: 6,
+        url: 'https://shorturl.at/hit56',
         preview: false
       },
       {
         spotId: 6,
         url: 'https://shorturl.at/hit56',
         preview: false
-      }
+      },
+      {
+        spotId: 6,
+        url: 'https://shorturl.at/hit56',
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: 'https://shorturl.at/hit56',
+        preview: false
+      },
     ], { validate: true })
   },
 

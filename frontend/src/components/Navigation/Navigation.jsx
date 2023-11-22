@@ -34,10 +34,13 @@ function Navigation({ isLoaded }) {
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
     const ulClassName = "nav-dropdown" + (showMenu ? "" : " hidden");
+
+
     let sessionLinks;
     if (sessionUser) {
         sessionLinks = (
             <>
+                <NavLink to='/spots/new' className='newSpot'>Create A Spot</NavLink>
                 <ProfileButton user={sessionUser} />
             </>
         );
@@ -86,7 +89,6 @@ function Navigation({ isLoaded }) {
                 </button>
             </ul> */}
             <div className='newSpotAndMenu'>
-                <NavLink to='/spots/new' className='newSpot'>Create A Spot</NavLink>
                 {isLoaded && sessionLinks}
             </div>
 
