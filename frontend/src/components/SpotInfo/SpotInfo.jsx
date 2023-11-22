@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { spotDetailsFetch } from "../../store/spots";
 import { useParams } from "react-router-dom";
 import './SpotInfo.css'
+import Reviews from "../Reviews/Reviews";
 
 function SpotInfo() {
     const dispatch = useDispatch()
@@ -67,6 +68,7 @@ function SpotInfo() {
                     </div>
                 </div>
             </div>
+            <Reviews spotId={spotId} />
         </div>
     )
 }

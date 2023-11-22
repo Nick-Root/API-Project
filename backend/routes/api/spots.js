@@ -189,6 +189,8 @@ router.get('/:spotId', async (req, res) => {
 
     const avgRating = Number((sum / starRatings.length).toFixed(2))
 
+    // const Reviews = await Review.findAll({ where: { spotId: spot.id } })
+
     const spotImage = await SpotImage.findAll({ where: { spotId: spot.id }, attributes: ['id', 'url', 'preview'] })
 
     const owner = await User.findByPk(spot.ownerId, { attributes: ['id', 'firstName', 'lastName'] })
@@ -208,6 +210,7 @@ router.get('/:spotId', async (req, res) => {
 
 
     spot.avgRating = avgRating ? avgRating : `Spot not rated`
+    // spot.Reviews = Reviews
     spot.SpotImages = spotImage
     spot.Owner = owner
 
