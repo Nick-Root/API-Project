@@ -36,8 +36,8 @@ function CreateASpot() {
         dispatch(getAllSpotsFetch())
     }, [dispatch, user])
 
-    function validateInputs() {
-        // e.preventDefault()
+    function validateInputs(e) {
+        e.preventDefault()
         console.log("Validate is running")
         if (!country) errs.push("Country is required")
         if (!address) errs.push("Address is required")
@@ -155,8 +155,10 @@ function CreateASpot() {
                         <p>Guests will only get your exact address once they booked a reservation</p>
                     </div>
                     <label>
-                        <p className='locaInputs'>Country</p>
-                        {errors.find((error) => error.includes("Country"))}
+                        <div className='titleAndErrors'>
+                            <p className='locaInputs'>Country</p>
+                            <p className="error">{errors.find((error) => error && error.includes("Country"))}</p>
+                        </div>
                         <input
                             type='text'
                             placeholder="Country"
@@ -169,8 +171,10 @@ function CreateASpot() {
 
                     </label>
                     <label>
-                        <p className='locaInputs'>Address</p>
-                        {errors.find((error) => error.includes("Address"))}
+                        <div className='titleAndErrors'>
+                            <p className='locaInputs'>Address</p>
+                            <p className="error">{errors.find((error) => error.includes("Address"))}</p>
+                        </div>
                         <input
                             type='text'
                             placeholder='Address'
@@ -182,8 +186,10 @@ function CreateASpot() {
 
                     </label>
                     <label className="citystate">
-                        <p className='locaInputs'>City</p>
-                        {errors.find((error) => error.includes("Address", "State"))}
+                        <div className='titleAndErrors'>
+                            <p className='locaInputs'>City</p>
+                            <p className="error">{errors.find((error) => error.includes("Address"))}</p>
+                        </div>
                         <input
                             type='text'
                             placeholder="City"
@@ -192,8 +198,10 @@ function CreateASpot() {
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
                         ></input>
-
-                        <p className='locaInputs'>State</p>
+                        <div className='titleAndErrors'>
+                            <p className='locaInputs'>State</p>
+                            <p className="error">{errors.find((error) => error.includes("Address"))}</p>
+                        </div>
                         <input
                             type='text'
                             placeholder="State"
@@ -205,8 +213,10 @@ function CreateASpot() {
 
                     </label>
                     <label className="latlng">
-                        <p className='locaInputs'>Latitude</p>
-                        {errors.find((error) => error.includes("Latitude"))}
+                        <div className='titleAndErrors'>
+                            <p className='locaInputs'>Latitude</p>
+                            <p className="error">{errors.find((error) => error.includes("Latitude"))}</p>
+                        </div>
                         <input
                             type='text'
                             placeholder="Latitude"
@@ -215,8 +225,10 @@ function CreateASpot() {
                             value={lat}
                             onChange={(e) => setLat(e.target.value)}
                         ></input>
-                        <p className='locaInputs'>Longitude</p>
-                        {errors.find((error) => error.includes("Longitude"))}
+                        <div className='titleAndErrors'>
+                            <p className='locaInputs'>Longitude</p>
+                            <p className="error">{errors.find((error) => error.includes("Longitude"))}</p>
+                        </div>
                         <input
                             type='text'
                             placeholder="Longitude"
@@ -230,22 +242,26 @@ function CreateASpot() {
                 <div className='descriptionBox'>
                     <h2>Describe your place to guests</h2>
                     <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood</p>
-                    {errors.find((error) => error.includes("Description"))}
-                    <p className='locaInputs'>Description</p>
-                    <input
-                        type='textarea'
+                    <div className='titleAndErrors'>
+                        <p className='locaInputs'>Description</p>
+                        <p className="error">{errors.find((error) => error.includes("Description"))}</p>
+                    </div>
+                    <textarea
+                        type='text'
                         placeholder="Please write at least 30 characters"
                         className="desc"
                         id='inputCreate'
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                    ></input>
+                    ></textarea>
                 </div>
                 <div className='titleBox'>
                     <h2>Create a title for your spot</h2>
                     <p>Catch guests attention with a spot title that highlights what makes your place special.</p>
-                    {errors.find((error) => error.includes("Title"))}
-                    <p className='locaInputs'>Title</p>
+                    <div className='titleAndErrors'>
+                        <p className='locaInputs'>Title</p>
+                        <p className='error'>{errors.find((error) => error.includes("Title"))}</p>
+                    </div>
                     <input
                         type='text'
                         placeholder="Name of your spot"
@@ -257,8 +273,10 @@ function CreateASpot() {
                 <div className="priceBox">
                     <h2>Set a base price for your spot</h2>
                     <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
-                    {errors.find((error) => error.includes("Price"))}
-                    <p className='locaInputs'>Price</p>
+                    <div className='titleAndErrors'>
+                        <p className='locaInputs'>Price</p>
+                        <p className="error">{errors.find((error) => error.includes("Price"))}</p>
+                    </div>
                     <div className='priceDiv'>
                         $ <input
                             type="text"
@@ -273,9 +291,10 @@ function CreateASpot() {
                 <div className='updateImgs'>
                     <h2>Liven up your spot with photos</h2>
                     <p>Submit a link to at least one photo to publish your spot</p>
-                    <p className='locaInputs'>Preview Image</p>
-                    {errors.find((error) => error.includes("Preview"))}
-                    {errors.find((error) => error.includes("Image"))}
+                    <div className='titleAndErrors'>
+                        <p className='locaInputs'>Preview Image</p>
+                        <p className="error">{errors.find((error) => error.includes("Preview"))}</p>
+                    </div>
                     <input
                         type='text'
                         placeholder="Preview Image URL"

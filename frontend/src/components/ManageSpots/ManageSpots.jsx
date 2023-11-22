@@ -42,7 +42,7 @@ function ManageUserSpots() {
                 </div>
             </NavLink >
             <div className='updateDelete'>
-                <button className='updateASpot' onClick={`/spots/${spot.id}/edit`}>
+                <button className='updateASpot'>
                     <NavLink to={`/spots/${spot.id}/edit`} className='updateNavLink'>Update</NavLink>
                 </button>
                 <div className='deleteButton'><OpenModalButton buttonText={"Delete"} modalComponent={<DeleteModal spot={spot} />} /></div>

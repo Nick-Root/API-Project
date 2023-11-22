@@ -53,8 +53,8 @@ function UpdateSpot() {
     // if (!spot) return null
     // if (!spot.SpotImages) return null
 
-    function validateInputs() {
-        // e.preventDefault()
+    function validateInputs(e) {
+        e.preventDefault()
         const errs = []
         console.log("Validate is running")
         if (!country) errs.push("Country is required")
@@ -108,9 +108,10 @@ function UpdateSpot() {
                         <p>Guests will only get your exact address once they booked a reservation</p>
                     </div>
                     <label>
-                        <p className='locaInputs'>Country</p>
-
-                        {errors.find((error) => error.includes("Country"))}
+                        <div className='titleAndErrors'>
+                            <p className='locaInputs'>Country</p>
+                            <p className="error">{errors.find((error) => error && error.includes("Country"))}</p>
+                        </div>
                         <input
                             type='text'
                             placeholder="Country"
@@ -122,9 +123,10 @@ function UpdateSpot() {
 
                     </label>
                     <label>
-                        <p className='locaInputs'>Address</p>
-
-                        {errors.find((error) => error.includes("Address"))}
+                        <div className='titleAndErrors'>
+                            <p className='locaInputs'>Address</p>
+                            <p className="error">{errors.find((error) => error.includes("Address"))}</p>
+                        </div>
                         <input
                             type='text'
                             placeholder='Address'
@@ -135,8 +137,10 @@ function UpdateSpot() {
 
                     </label>
                     <label className="citystate">
-                        <p className='locaInputs'>City</p>
-                        {errors.find((error) => error.includes("Address", "State"))}
+                        <div className='titleAndErrors'>
+                            <p className='locaInputs'>City</p>
+                            <p className="error">{errors.find((error) => error.includes("Address"))}</p>
+                        </div>
                         <input
                             type='text'
                             placeholder="City"
@@ -144,7 +148,10 @@ function UpdateSpot() {
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
                         ></input>
-                        <p className='locaInputs'>State</p>
+                        <div className='titleAndErrors'>
+                            <p className='locaInputs'>State</p>
+                            <p className="error">{errors.find((error) => error.includes("Address"))}</p>
+                        </div>
 
                         <input
                             type='text'
@@ -156,9 +163,10 @@ function UpdateSpot() {
 
                     </label>
                     <label className="latlng">
-                        <p className='locaInputs'>Latitude</p>
-
-                        {errors.find((error) => error.includes("Latitude"))}
+                        <div className='titleAndErrors'>
+                            <p className='locaInputs'>Latitude</p>
+                            <p className="error">{errors.find((error) => error.includes("Latitude"))}</p>
+                        </div>
                         <input
                             type='text'
                             placeholder="Latitude"
@@ -166,9 +174,10 @@ function UpdateSpot() {
                             value={lat}
                             onChange={(e) => setLat(e.target.value)}
                         ></input>
-                        <p className='locaInputs'>Longitude</p>
-
-                        {errors.find((error) => error.includes("Longitude"))}
+                        <div className='titleAndErrors'>
+                            <p className='locaInputs'>Longitude</p>
+                            <p className="error">{errors.find((error) => error.includes("Longitude"))}</p>
+                        </div>
                         <input
                             type='text'
                             placeholder="Longitude"
@@ -181,8 +190,10 @@ function UpdateSpot() {
                 <div className='descriptionBox'>
                     <h2>Describe your place to guests</h2>
                     <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood</p>
-                    {errors.find((error) => error.includes("Description"))}
-                    <p className='locaInputs'>Description</p>
+                    <div className='titleAndErrors'>
+                        <p className='locaInputs'>Description</p>
+                        <p className="error">{errors.find((error) => error.includes("Description"))}</p>
+                    </div>
                     <textarea
                         type='textarea'
                         placeholder="Please write at least 30 characters"
@@ -195,8 +206,10 @@ function UpdateSpot() {
                 <div className='titleBox'>
                     <h2>Create a title for your spot</h2>
                     <p>Catch guests attention with a spot title that highlights what makes your place special.</p>
-                    <p className='locaInputs'>Title</p>
-                    {errors.find((error) => error.includes("Title"))}
+                    <div className='titleAndErrors'>
+                        <p className='locaInputs'>Title</p>
+                        <p className='error'>{errors.find((error) => error.includes("Title"))}</p>
+                    </div>
                     <input
                         type='text'
                         placeholder="Name of your spot"
@@ -208,8 +221,10 @@ function UpdateSpot() {
                 <div className="priceBox">
                     <h2>Set a base price for your spot</h2>
                     <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
-                    {errors.find((error) => error.includes("Price"))}
-                    <p className='locaInputs'>Price</p>
+                    <div className='titleAndErrors'>
+                        <p className='locaInputs'>Price</p>
+                        <p className="error">{errors.find((error) => error.includes("Price"))}</p>
+                    </div>
                     <div className='priceDiv'>
                         $ <input
                             type="text"
@@ -224,9 +239,10 @@ function UpdateSpot() {
                 <div className='updateImgs'>
                     <h2>Liven up your spot with photos</h2>
                     <p>Submit a link to at least one photo to publish your spot</p>
-                    {errors.find((error) => error.includes("Preview"))}
-                    {errors.find((error) => error.includes("Image"))}
-                    <p className='locaInputs'>Preview Image</p>
+                    <div className='titleAndErrors'>
+                        <p className='locaInputs'>Preview Image</p>
+                        <p className="error">{errors.find((error) => error.includes("Preview"))}</p>
+                    </div>
                     <input
                         type='text'
                         placeholder="Preview Image URL"

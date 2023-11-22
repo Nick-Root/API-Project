@@ -17,7 +17,7 @@ function SpotInfo() {
     if (!spot) return null
     if (!spot.SpotImages) return null;
     if (spot.id !== parseInt(spotId)) return null;
-    const alert = () => {
+    const showAlert = () => {
         alert("Feature Coming Soon")
     }
 
@@ -63,7 +63,7 @@ function SpotInfo() {
                                 </div>
                             </div>
                         </div>
-                        <button className="resButton" onClick={alert}>Reserve</button>
+                        <button className="resButton" onClick={showAlert}>Reserve</button>
                     </div>
                 </div>
             </div>

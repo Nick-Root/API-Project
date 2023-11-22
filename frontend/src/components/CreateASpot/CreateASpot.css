@@ -35,11 +35,29 @@
     align-items: center;
 }
 
-
+.desc {
+    height: 180px
+}
 
 .locaUpdate {
     padding-bottom: 35px;
     border-bottom: 2px solid black;
+}
+
+.error {
+    color: red;
+    font-family: sans-serif;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+
+.titleAndErrors {
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .cas {
