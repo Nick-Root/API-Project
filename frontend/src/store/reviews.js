@@ -83,7 +83,8 @@ export const reviewsReducer = (state = initialState, action) => {
         case DELETE_REVIEW: {
             const reviews = [...state.spot.Reviews]
             delete reviews[action.spotId]
-            return { ...state, spot: { Reviews: reviews } }
+            const updatedReviews = state.spot.Reviews.filter(review => review.id !== action.payload)
+            return { ...state, spot: { Reviews: updatedReviews } }
 
         }
         default:

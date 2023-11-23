@@ -4,6 +4,7 @@ import { useModal } from "../../context/Modal"
 import { createNewReview, fetchReviews } from "../../store/reviews"
 import * as sessionActions from "../../store/reviews"
 
+
 function CreateReviewModal({ spot, user }) {
     const dispatch = useDispatch()
     const spotId = useSelector((state) => state.spots.currSpot.id)
@@ -19,6 +20,8 @@ function CreateReviewModal({ spot, user }) {
         setStars(e.target.id)
     }
 
+
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -31,9 +34,11 @@ function CreateReviewModal({ spot, user }) {
         const res = await dispatch(createNewReview(newRev, spotId))
         await dispatch(sessionActions.fetchReviews(spotId))
         await dispatch(fetchReviews(spotId))
+
         closeModal()
         setReviewText("")
         setStars(0)
+
         return res
     }
     return (
