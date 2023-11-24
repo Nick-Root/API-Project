@@ -28,7 +28,11 @@ function SpotInfo() {
     let reviewsLabel;
     if (spot.numReviews === 1) reviewsLabel = 'Review'
     if (spot.numReviews > 1) reviewsLabel = 'Reviews'
-    if (spot.numReviews === 0) reviewsLabel = 'New'
+    // if (spot.numReviews === 0) reviewsLabel = 'New'
+    let revNum = spot.numReviews
+    if (spot.numReviews === 0) revNum = ''
+    let separator = '•'
+    if (!spot.numReviews) separator = ''
 
     return (
         <div id='spotInfoDisplay'>
@@ -59,8 +63,8 @@ function SpotInfo() {
                             <div className='resInfo'>
                                 <div className='priceRevs'> ${spot.price} night </div>
                                 <div className='reviewInfo'>
-                                    < i className='fa-solid fa-star'></i>{typeof spot.avgRating === 'number' ? (<p>{parseFloat(spot.avgRating).toFixed(1)}</p>) : (<p>New</p>)}
-                                    <div className='numRevs'>{spot.numReviews} {reviewsLabel}</div>
+                                    < i className='fa-solid fa-star'>{separator}</i>{typeof spot.avgRating === 'number' ? (<p>{parseFloat(spot.avgRating).toFixed(1)}</p>) : (<p>New</p>)}
+                                    <div className='numRevs'>{revNum}{reviewsLabel}</div>
                                 </div>
                             </div>
                         </div>

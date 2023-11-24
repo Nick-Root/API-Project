@@ -21,7 +21,7 @@ function UpdateSpot() {
     const [description, setDescription] = useState(spot.description)
     const [name, setName] = useState(spot.name)
     const [price, setPrice] = useState(spot.price)
-    const [prevImg, setPrevImg] = useState(spot.prevImg || "")
+    const [prevImg, setPrevImg] = useState(spot.previewImage || "")
     const [imgTwo, setImgTwo] = useState(spot.imgTwo || "")
     const [imgThree, setImgThree] = useState(spot.imgThree || "")
     const [imgFour, setImgFour] = useState(spot.imgFour || "")
@@ -43,7 +43,7 @@ function UpdateSpot() {
         setDescription(spot.description || "")
         setName(spot.name || "")
         setPrice(spot.price || "")
-        setPrevImg(spot.prevImg || "")
+        setPrevImg(spot.previewImage || "")
         setImgTwo(spot.imgTwo || "")
         setImgThree(spot.imgThree || "")
         setImgFour(spot.imgFour || "")
@@ -66,15 +66,15 @@ function UpdateSpot() {
         if (description.length < 30) errs.push("Description must be at least 30 characters")
         if (!name) errs.push("Title is required")
         if (!price) errs.push("Price is required")
-        if (!prevImg) errs.push("Preview image is required")
+        if (!prevImg) errs.push("Preview image is required (.png, .jpg, .jpeg)")
         setErrors(errs)
         // return errors.length === 0
     }
 
     const handleUpdate = async (e) => {
         e.preventDefault()
-
-        if (errors.length === 0) {
+        console.log("handleUpdate is running")
+        if (!errors.length) {
             const updatedSpot = {
                 country,
                 address,

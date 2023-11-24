@@ -8,18 +8,20 @@ function DeleteReview({ spot, review }) {
     const dispatch = useDispatch()
     const { closeModal } = useModal()
 
+
     useEffect(() => {
         dispatch(fetchReviews(spot.id))
     }, [dispatch, spot]);
 
-    const deleteReview = (e) => {
-        e.preventDefault()
+    const deleteReview = () => {
+
         dispatch(deleteExistingReview(review.id))
+        // dispatch(fetchReviews(spot.id))
         closeModal()
     }
 
-    const cancelDelete = (e) => {
-        e.preventDefault()
+    const cancelDelete = () => {
+
         closeModal()
     }
 
