@@ -50,8 +50,15 @@ function ManageUserSpots() {
         </div >
     ))
     return (
+        <div className='mainManageBox'>
+
+            <div className='headerCreate'>
+                <h1 className="manageHeader">Manage Spots</h1>
+            <NavLink to='/spots/new' className='newSpotManage'>Create A Spot</NavLink>
+            </div>
         <div className='returnPage'>
             <div className='manage'>{usersSpotsDisplay}</div>
+        </div>
         </div>
     )
 }

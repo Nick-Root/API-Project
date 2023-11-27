@@ -94,7 +94,7 @@
     display: flex;
     align-items: center;
     /* margin-bottom: 1px; */
-    padding-left: 15px;
+    padding-left: 10px;
 }
 
 .resButton {
@@ -139,6 +139,7 @@
     /* border: 1px solid orange; */
     padding-right: 25px;
     margin-top: -10px;
+    width: 620px
 }
 
 /* .location {
@@ -154,7 +155,13 @@
 }
 
 .loca {
-    width: 300px;
+    width: 600px;
     margin-top: -16px;
     padding-bottom: 15px;
+}
+
+.dot {
+    display: inline-flex;
+    align-items: center;
+    padding-left: 15px;
 }

@@ -53,8 +53,8 @@ function UpdateSpot() {
     // if (!spot) return null
     // if (!spot.SpotImages) return null
 
-    function validateInputs(e) {
-        e.preventDefault()
+    function validateInputs() {
+        // e.preventDefault()
         const errs = []
         console.log("Validate is running")
         if (!country) errs.push("Country is required")

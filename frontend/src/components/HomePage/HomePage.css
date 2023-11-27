@@ -41,7 +41,8 @@
     flex-direction: column;
     font-size: 14px;
     font-family: sans-serif;
-    width: 130px
+    width: 130px;
+    height: 110px
 }
 
 .reviewSection {

@@ -63,8 +63,9 @@ function SpotInfo() {
                             <div className='resInfo'>
                                 <div className='priceRevs'> ${spot.price} night </div>
                                 <div className='reviewInfo'>
-                                    < i className='fa-solid fa-star'>{separator}</i>{typeof spot.avgRating === 'number' ? (<p>{parseFloat(spot.avgRating).toFixed(1)}</p>) : (<p>New</p>)}
-                                    <div className='numRevs'>{revNum}{reviewsLabel}</div>
+                                    < i className='fa-solid fa-star'></i>{typeof spot.avgRating === 'number' ? (<p>{parseFloat(spot.avgRating).toFixed(1)}</p>) : (<p>New</p>)}
+                                    <div className='dot'>{separator}</div>
+                                    <div className='numRevs'>{revNum} {reviewsLabel}</div>
                                 </div>
                             </div>
                         </div>

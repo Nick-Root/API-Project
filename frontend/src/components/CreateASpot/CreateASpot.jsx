@@ -36,8 +36,8 @@ function CreateASpot() {
         dispatch(getAllSpotsFetch())
     }, [dispatch, user])
 
-    function validateInputs(e) {
-        e.preventDefault()
+    function validateInputs() {
+        // e.preventDefault()
         console.log("Validate is running")
         if (!country) errs.push("Country is required")
         if (!address) errs.push("Address is required")

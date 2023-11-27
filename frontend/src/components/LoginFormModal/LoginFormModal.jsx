@@ -32,6 +32,9 @@ function LoginFormModal() {
     return (
         <div className='main'>
             <h1 className='loginsignup'>Log In</h1>
+            {errors.credential && (
+                    <p className='errors'>{errors.credential}</p>
+                )}
             <form onSubmit={handleSubmit}>
                 <label>
                     <input
@@ -53,9 +56,7 @@ function LoginFormModal() {
                         required
                     />
                 </label>
-                {errors.credential && (
-                    <p className='errors'>{errors.credential}</p>
-                )}
+               
                 <button type="submit" className="loginbutton" disabled={credential.length < 4 || password.length < 6}>Log In</button>
                 <button className='demoButton' onClick={demoUser}>Demo User</button>
             </form>

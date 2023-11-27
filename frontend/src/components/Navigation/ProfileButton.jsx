@@ -50,8 +50,8 @@ function ProfileButton({ user }) {
                 <ul className={ulClassName} ref={ulRef}>
                     <ul className='text'><>Hello, {user.username}</></ul>
                     <ul className='text'>{user.email}</ul>
-                    <ul className='manageSpots'> <NavLink to='/spots/current' onClick={toggleMenu}>Manage Spots</NavLink></ul>
-                    <ul>
+                    <ul className='manageSpots'> <NavLink to='/spots/current' onClick={toggleMenu} className='manageNav'>Manage Spots</NavLink></ul>
+                    <ul className='loButton'>
                         <button onClick={logout} className='button'>Log Out</button>
                     </ul>
                 </ul>
