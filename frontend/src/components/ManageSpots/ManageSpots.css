@@ -96,6 +96,7 @@
 .headerCreate {
     display: flex;
     flex-direction: column;
+    font-family: sans-serif;
 }
 
 .mainManageBox {

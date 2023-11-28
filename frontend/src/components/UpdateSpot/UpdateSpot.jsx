@@ -103,7 +103,7 @@ function UpdateSpot() {
                 lng,
                 description,
                 name,
-                price
+                price,
             }
 
             const res = await dispatch(spotUpdate(updatedSpot, spot.id))
@@ -267,7 +267,7 @@ function UpdateSpot() {
                         type='text'
                         placeholder="Preview Image URL"
                         id='inputUpdate'
-                        value={spot.previewImage}
+                        value={prevImg}
                         onChange={(e) => setPrevImg(e.target.value)}
                     ></input>
                     <p className='locaInputs'>Image 1</p>

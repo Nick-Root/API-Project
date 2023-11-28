@@ -88,7 +88,7 @@ function Reviews({ spotId }) {
         <div className="revBox">
             <div className='revHeader'>
                 <i id='revDisplayStar' className="fa-solid fa-star"></i>
-                <div className='avgRate'>{spot.avgRating}</div>
+                <div className='avgRate'>{spot.avgRating.toFixed(1)}</div>
                 <div>•</div>
                 <div className='revNumDisp'> {spot.numReviews} </div>
                 <div className='revLabelDisp'> {reviewsLabel}</div>
