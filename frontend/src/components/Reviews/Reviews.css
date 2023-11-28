@@ -1,9 +1,9 @@
 .revBox {
-    border: 3px solid purple
+    /* border: 3px solid purple */
 }
 
 .revHeader {
-    outline: 3px solid red;
+    /* outline: 3px solid red; */
     display: inline-flex;
     align-content: center;
     align-items: center;
@@ -22,4 +22,54 @@
     background-color: #414143;
     margin-bottom: 3px;
     color: white;
+}
+
+.singleRev {
+    /* outline: 2px solid yellow; */
+    margin-bottom: 20px;
+    font-family: sans-serif;
+}
+
+.date {
+    display: inline-flex;
+    gap: 5px;
+    font-size: 16px;
+    color: gray
+}
+
+.userDisplay {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.avgRate {
+    padding-right: 8px;
+    font-weight: bold;
+}
+
+.revNumDisp {
+    padding-left: 8px;
+    font-weight: bold;
+    gap: 10px
+}
+
+.revLabelDisp {
+    padding-left: 5px;
+    font-weight: bold;
+}
+
+.revText {
+    font-size: 16px;
+}
+
+.firstRev {
+    font-family: sans-serif;
+    font-size: 18px;
+}
+
+.revsLabel {
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    padding-top: 2px;
 }

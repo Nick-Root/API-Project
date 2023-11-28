@@ -59,9 +59,10 @@ function CreateASpot() {
                     break
                 }
             }
-            if (!validExt) errs.push("Image must have a valid extention")
+            if (!validExt) errs.push("Image must have a valid extension")
         }
         setErrors(errs)
+        console.log(errors)
         // return errors.length === 0
     }
 
@@ -294,6 +295,7 @@ function CreateASpot() {
                     <div className='titleAndErrors'>
                         <p className='locaInputs'>Preview Image</p>
                         <p className="error">{errors.find((error) => error.includes("Preview"))}</p>
+                        <p className="error">{errors.find((error) => error.includes("Image"))}</p>
                     </div>
                     <input
                         type='text'

@@ -27,8 +27,14 @@ function UpdateSpot() {
     const [imgFour, setImgFour] = useState(spot.imgFour || "")
     const [imgFive, setImgFive] = useState(spot.imgFive || "")
     const [errors, setErrors] = useState([])
-
-
+    const allowedExtentions = [".jpg", ".jpeg", ".png"]
+    const errs = []
+    const imgs = []
+    if (prevImg) imgs.push(prevImg)
+    if (imgTwo) imgs.push(imgTwo)
+    if (imgThree) imgs.push(imgThree)
+    if (imgFour) imgs.push(imgFour)
+    if (imgFive) imgs.push(imgFive)
     useEffect(() => {
         dispatch(spotDetailsFetch(spotId))
     }, [dispatch, spotId])
@@ -55,7 +61,6 @@ function UpdateSpot() {
 
     function validateInputs() {
         // e.preventDefault()
-        const errs = []
         console.log("Validate is running")
         if (!country) errs.push("Country is required")
         if (!address) errs.push("Address is required")
@@ -66,8 +71,22 @@ function UpdateSpot() {
         if (description.length < 30) errs.push("Description must be at least 30 characters")
         if (!name) errs.push("Title is required")
         if (!price) errs.push("Price is required")
-        if (!prevImg) errs.push("Preview image is required (.png, .jpg, .jpeg)")
+        if (!prevImg) errs.push("Preview image is required")
+        for (let i = 0; i < imgs.length; i++) {
+            const lowerImg = imgs[i].toLowerCase()
+            let validExt = false
+            for (let j = 0; j < allowedExtentions.length; j++) {
+                const ext = allowedExtentions[j]
+                if (lowerImg.endsWith(ext)) {
+                    validExt = true;
+                    break
+                }
+            }
+            if (!validExt) errs.push("Image must have a valid extension")
+        }
+        console.log(errs)
         setErrors(errs)
+        // console.log(errors)
         // return errors.length === 0
     }
 
@@ -242,6 +261,7 @@ function UpdateSpot() {
                     <div className='titleAndErrors'>
                         <p className='locaInputs'>Preview Image</p>
                         <p className="error">{errors.find((error) => error.includes("Preview"))}</p>
+                        <p className="error">{errors.find((error) => error.includes("Image"))}</p>
                     </div>
                     <input
                         type='text'

@@ -169,6 +169,89 @@ module.exports = {
         url: 'https://shorturl.at/hit56',
         preview: false
       },
+      { spotId: 7, url: 'https://shorturl.at/begAQ', preview: true },
+      { spotId: 7, url: 'https://shorturl.at/begAQ', preview: false },
+      { spotId: 7, url: 'https://shorturl.at/begAQ', preview: false },
+      { spotId: 7, url: 'https://shorturl.at/begAQ', preview: false },
+      { spotId: 7, url: 'https://shorturl.at/begAQ', preview: false },
+      { spotId: 7, url: 'https://shorturl.at/begAQ', preview: false },
+
+      { spotId: 8, url: 'https://shorturl.at/dnrHM', preview: true },
+      { spotId: 8, url: 'https://shorturl.at/dnrHM', preview: false },
+      { spotId: 8, url: 'https://shorturl.at/dnrHM', preview: false },
+      { spotId: 8, url: 'https://shorturl.at/dnrHM', preview: false },
+      { spotId: 8, url: 'https://shorturl.at/dnrHM', preview: false },
+      { spotId: 8, url: 'https://shorturl.at/dnrHM', preview: false },
+
+      { spotId: 9, url: 'https://shorturl.at/lqERV', preview: true },
+      { spotId: 9, url: 'https://shorturl.at/lqERV', preview: false },
+      { spotId: 9, url: 'https://shorturl.at/lqERV', preview: false },
+      { spotId: 9, url: 'https://shorturl.at/lqERV', preview: false },
+      { spotId: 9, url: 'https://shorturl.at/lqERV', preview: false },
+      { spotId: 9, url: 'https://shorturl.at/lqERV', preview: false },
+
+      { spotId: 10, url: 'https://shorturl.at/dnAEY', preview: true },
+      { spotId: 10, url: 'https://shorturl.at/dnAEY', preview: false },
+      { spotId: 10, url: 'https://shorturl.at/dnAEY', preview: false },
+      { spotId: 10, url: 'https://shorturl.at/dnAEY', preview: false },
+      { spotId: 10, url: 'https://shorturl.at/dnAEY', preview: false },
+      { spotId: 10, url: 'https://shorturl.at/dnAEY', preview: false },
+
+      { spotId: 11, url: 'https://shorturl.at/swyzF', preview: true },
+      { spotId: 11, url: 'https://shorturl.at/swyzF', preview: false },
+      { spotId: 11, url: 'https://shorturl.at/swyzF', preview: false },
+      { spotId: 11, url: 'https://shorturl.at/swyzF', preview: false },
+      { spotId: 11, url: 'https://shorturl.at/swyzF', preview: false },
+      { spotId: 11, url: 'https://shorturl.at/swyzF', preview: false },
+
+      { spotId: 12, url: 'https://tinyurl.com/4kvha9yb', preview: true },
+      { spotId: 12, url: 'https://tinyurl.com/4kvha9yb', preview: false },
+      { spotId: 12, url: 'https://tinyurl.com/4kvha9yb', preview: false },
+      { spotId: 12, url: 'https://tinyurl.com/4kvha9yb', preview: false },
+      { spotId: 12, url: 'https://tinyurl.com/4kvha9yb', preview: false },
+      { spotId: 12, url: 'https://tinyurl.com/4kvha9yb', preview: false },
+
+      { spotId: 13, url: 'https://tinyurl.com/2may49m3', preview: true },
+      { spotId: 13, url: 'https://tinyurl.com/2may49m3', preview: false },
+      { spotId: 13, url: 'https://tinyurl.com/2may49m3', preview: false },
+      { spotId: 13, url: 'https://tinyurl.com/2may49m3', preview: false },
+      { spotId: 13, url: 'https://tinyurl.com/2may49m3', preview: false },
+      { spotId: 13, url: 'https://tinyurl.com/2may49m3', preview: false },
+
+      { spotId: 14, url: 'https://tinyurl.com/jy9tu63u', preview: true },
+      { spotId: 14, url: 'https://tinyurl.com/jy9tu63u', preview: false },
+      { spotId: 14, url: 'https://tinyurl.com/jy9tu63u', preview: false },
+      { spotId: 14, url: 'https://tinyurl.com/jy9tu63u', preview: false },
+      { spotId: 14, url: 'https://tinyurl.com/jy9tu63u', preview: false },
+      { spotId: 14, url: 'https://tinyurl.com/jy9tu63u', preview: false },
+
+      { spotId: 15, url: 'https://tinyurl.com/y8d9pdfp', preview: true },
+      { spotId: 15, url: 'https://tinyurl.com/y8d9pdfp', preview: false },
+      { spotId: 15, url: 'https://tinyurl.com/y8d9pdfp', preview: false },
+      { spotId: 15, url: 'https://tinyurl.com/y8d9pdfp', preview: false },
+      { spotId: 15, url: 'https://tinyurl.com/y8d9pdfp', preview: false },
+      { spotId: 15, url: 'https://tinyurl.com/y8d9pdfp', preview: false },
+
+      { spotId: 16, url: 'https://tinyurl.com/mvh6bwjy', preview: true },
+      { spotId: 16, url: 'https://tinyurl.com/mvh6bwjy', preview: false },
+      { spotId: 16, url: 'https://tinyurl.com/mvh6bwjy', preview: false },
+      { spotId: 16, url: 'https://tinyurl.com/mvh6bwjy', preview: false },
+      { spotId: 16, url: 'https://tinyurl.com/mvh6bwjy', preview: false },
+      { spotId: 16, url: 'https://tinyurl.com/mvh6bwjy', preview: false },
+
+      { spotId: 17, url: 'https://tinyurl.com/yfhpewm2', preview: true },
+      { spotId: 17, url: 'https://tinyurl.com/yfhpewm2', preview: false },
+      { spotId: 17, url: 'https://tinyurl.com/yfhpewm2', preview: false },
+      { spotId: 17, url: 'https://tinyurl.com/yfhpewm2', preview: false },
+      { spotId: 17, url: 'https://tinyurl.com/yfhpewm2', preview: false },
+      { spotId: 17, url: 'https://tinyurl.com/yfhpewm2', preview: false },
+
+      { spotId: 18, url: 'https://tinyurl.com/5n8wh7ee', preview: true },
+      { spotId: 18, url: 'https://tinyurl.com/5n8wh7ee', preview: false },
+      { spotId: 18, url: 'https://tinyurl.com/5n8wh7ee', preview: false },
+      { spotId: 18, url: 'https://tinyurl.com/5n8wh7ee', preview: false },
+      { spotId: 18, url: 'https://tinyurl.com/5n8wh7ee', preview: false },
+      { spotId: 18, url: 'https://tinyurl.com/5n8wh7ee', preview: false }
     ], { validate: true })
   },
 
@@ -183,7 +266,7 @@ module.exports = {
     const Op = Sequelize.Op;
 
     return queryInterface.bulkDelete(options, {
-      url: { [Op.in]: ['https://shorturl.at/aiyGY', 'https://shorturl.at/clwKL', 'https://shorturl.at/qzEHK', 'https://shorturl.at/hit56', 'https://shorturl.at/bJL07', 'https://shorturl.at/dmOQ0'] }
+      url: { [Op.in]: ['https://shorturl.at/aiyGY', 'https://shorturl.at/clwKL', 'https://shorturl.at/qzEHK', 'https://shorturl.at/hit56', 'https://shorturl.at/bJL07', 'https://shorturl.at/dmOQ0', 'https://shorturl.at/begAQ', 'https://shorturl.at/dnrHM', 'https://shorturl.at/lqERV', 'https://shorturl.at/dnAEY', 'https://shorturl.at/swyzF', 'https://tinyurl.com/4kvha9yb', 'https://tinyurl.com/2may49m3', 'https://tinyurl.com/jy9tu63u', 'https://tinyurl.com/y8d9pdfp', 'https://tinyurl.com/mvh6bwjy', 'https://tinyurl.com/yfhpewm2', 'https://tinyurl.com/5n8wh7ee'] }
     }, {});
   }
 };

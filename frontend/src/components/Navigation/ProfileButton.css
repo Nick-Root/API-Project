@@ -16,13 +16,16 @@
     align-items: center;
     padding: 5px 5px 5px 5px
 }
+
 .menu {
     border-radius: 30px;
     padding: 10px 20px 10px 20px;
 }
-.fa-solid.fa-bars{
+
+.fa-solid.fa-bars {
     padding-right: 5px
 }
+
 .button {
     display: flex;
     background-color: white;
@@ -30,8 +33,14 @@
 }
 
 .text {
-padding-left: 0px
+    padding-left: 0px
 }
+
+.textEm {
+    padding-left: 0px;
+    margin-bottom: 8px;
+}
+
 .manageSpots {
     padding-left: 0px;
     /* text-decoration: none; */
@@ -48,5 +57,7 @@ padding-left: 0px
 
 .manageNav {
     text-decoration: none;
-    color: black
+    color: black;
+    border-top: 1px solid black;
+    padding-top: 3px;
 }

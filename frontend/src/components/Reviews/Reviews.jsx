@@ -74,12 +74,12 @@ function Reviews({ spotId }) {
                     <div className='postARev'>
                         <OpenModalButton
                             className="postReviewBS"
-                            buttonText="Post a Review"
+                            buttonText="Post Your Review"
                             modalComponent={<CreateReviewModal spot={spot} user={currUser} />}
                         />
                     </div>
                 )}
-                {!ownerCheck && loggedIn && notReviewedState && <p>Be the first to post a review!</p>}
+                {!ownerCheck && loggedIn && notReviewedState && <p className='firstRev'>Be the first to post a review!</p>}
             </div>
         )
     }
@@ -90,12 +90,13 @@ function Reviews({ spotId }) {
                 <i id='revDisplayStar' className="fa-solid fa-star"></i>
                 <div className='avgRate'>{spot.avgRating}</div>
                 <div>•</div>
-                <div className='revNumAndLabel'> {spot.numReviews}{reviewsLabel} </div>
+                <div className='revNumDisp'> {spot.numReviews} </div>
+                <div className='revLabelDisp'> {reviewsLabel}</div>
             </div>
             {loggedIn && !ownerCheck && notReviewedState && (
                 <OpenModalButton
                     className="postRevButton"
-                    buttonText="Post a Review"
+                    buttonText="Post Your Review"
                     modalComponent={<CreateReviewModal spot={spot} user={currUser} />}
                 />
             )}

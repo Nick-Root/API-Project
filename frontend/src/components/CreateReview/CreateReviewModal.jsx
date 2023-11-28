@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useModal } from "../../context/Modal"
 import { createNewReview, fetchReviews } from "../../store/reviews"
 import * as sessionActions from "../../store/reviews"
-
+import './CreateReview.css'
 
 function CreateReviewModal({ spot, user }) {
     const dispatch = useDispatch()
